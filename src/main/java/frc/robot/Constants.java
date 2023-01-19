@@ -14,5 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     //left forward, left back, roight forward, right back
-    public static final int[] motorports = {0,1,2,3};
+    public static final int[] drivemotorports = {0,1,2,3};
+    //Kp, Ki, Kd, Max velocity, max acceleration, ks, kg, kv, ka, encoder source 1, encoder source 1, spark max port(PWM), starting position in radians
+    public static final int[] firstArmConstants = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 }

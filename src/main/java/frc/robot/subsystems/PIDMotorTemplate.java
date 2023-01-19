@@ -14,28 +14,32 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 public class PIDMotorTemplate extends ProfiledPIDSubsystem {
   /** Creates a new PIDMotorTemplate. */
 
-  private final PWMSparkMax m_motor = new PWMSparkMax(0);
-  private final Encoder m_encoder = new Encoder(0, 0);
-  private final ArmFeedforward m_feedforward =
+  private final PWMSparkMax m_motor;
+  private final Encoder m_encoder;
+  private final ArmFeedforward m_feedforward;
+  private final int offset;
 
-      new ArmFeedforward(
-
-          0, 0,
-
-          0, 0);
-  public PIDMotorTemplate() {
+  public PIDMotorTemplate(int[] constants) {
     super(
         // The ProfiledPIDController used by the subsystem
         new ProfiledPIDController(
-            0,
-            0,
-            0,
+            constants[0],
+            constants[1],
+            constants[2],
             // The motion profile constraints
-            new TrapezoidProfile.Constraints(0, 0)));
-    //encoder distance per pulse
-    m_encoder.setDistancePerPulse(0);
-    //offset in radians
-    setGoal(0);
+            new TrapezoidProfile.Constraints(constants[3], constants[4])));
+    // encoder distance per pulse
+    m_feedforward = new ArmFeedforward(
+
+        constants[5], constants[6],
+
+        constants[7], constants[8]);
+    m_encoder = new Encoder(constants[9], constants[10]);
+    m_motor = new PWMSparkMax(constants[11]);
+    m_encoder.setDistancePerPulse(constants[12]);
+    // offset in radians
+    setGoal(constants[13]);
+    offset = constants[13];
   }
 
   @Override
@@ -49,6 +53,6 @@ public class PIDMotorTemplate extends ProfiledPIDSubsystem {
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-      return m_encoder.getDistance(); // + offset
+    return m_encoder.getDistance() + offset;
   }
 }
