@@ -25,6 +25,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_drive.setDefaultCommand(getTeleopCommand());
   }
 
   /**
@@ -45,7 +46,7 @@ public class RobotContainer {
     return new DriveBackCommand().withTimeout(1);
   }
 
-  public Command getTeleopCommand() {
+  public static Command getTeleopCommand() {
     return new ArcadeDriveCommand();
   }
 }
