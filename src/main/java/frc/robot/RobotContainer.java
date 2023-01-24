@@ -46,7 +46,7 @@ public class RobotContainer {
     return new DriveBackCommand().withTimeout(1);
   }
 
-  public static Command getTeleopCommand() {
+  public Command getTeleopCommand() {
     return new ArcadeDriveCommand();
   }
 }
