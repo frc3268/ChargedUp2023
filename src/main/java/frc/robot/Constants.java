@@ -13,8 +13,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //left forward, left back, roight forward, right back
-    public static final int[] drivemotorports = {0,1,2,3};
+    //left forward, left back, right forward, right back
+    public static final int[] drivemotorports = {1,2,3,4};
     //Kp, Ki, Kd, Max velocity, max acceleration, ks, kg, kv, ka, encoder source 1, encoder source 1, spark max port(PWM), starting position in radians
     public static final int[] firstArmConstants = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 }

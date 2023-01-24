@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.DriveBackCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  //!FIX!
+  //ADD GYRO?
   public final static DriveSubsystem m_drive = new DriveSubsystem(Constants.drivemotorports[0], Constants.drivemotorports[1], Constants.drivemotorports[2], Constants.drivemotorports[3], 0, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -42,5 +43,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // drives back for 1 second
     return new DriveBackCommand().withTimeout(1);
+  }
+
+  public Command getTeleopCommand() {
+    return new ArcadeDriveCommand();
   }
 }
