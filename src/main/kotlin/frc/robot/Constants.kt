@@ -13,4 +13,10 @@ class Constants {
     object OperatorConstants {
         const val JoystickPort = 0
     }
+    object driveConstants {
+        const val driveLeftFrontID = 1
+        const val driveLeftBackID = 2
+        const val driveRightFrontID = 3
+        const val driveRightBackID = 4
+    }
 }
