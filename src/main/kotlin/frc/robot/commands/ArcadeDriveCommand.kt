@@ -1,20 +1,29 @@
 package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.subsystems.ExampleSubsystem
+import edu.wpi.first.wpilibj.Joystick
+import frc.robot.subsystems.DriveSubsystem
 
 /** An example command that uses an example subsystem.  */
-class ExampleCommand(subsystem: ExampleSubsystem) : CommandBase() {
+class ArcadeDriveCommand(subsystem: DriveSubsystem, stick : Joystick) : CommandBase() {
     init {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem)
+        val joystick:Joystick = stick
     }
 
     /** Called when the command is initially scheduled.  */
-    override fun initialize() {}
+    override fun initialize() {
+        
+    }
 
     /** Called every time the scheduler runs while the command is scheduled.  */
-    override fun execute() {}
+    override fun execute() {
+        
+        
+        
+    
+    }
 
     /** Called once the command ends or is interrupted.  */
     override fun end(interrupted: Boolean) {}
