@@ -33,7 +33,7 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        Trigger {IO.stick.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, IO.stick.joystick))
+        Trigger {IO.stick.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
 
     }
 
@@ -42,10 +42,6 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command
-        get() {
-            // An example command will be run in autonomous
-            //return Autos.exampleAuto(exampleSubsystem)
-            return ArcadeDriveCommand(driveSubsystem, IO.stick.joystick)
-        }
+    val autonomousCommand: Command= ArcadeDriveCommand(driveSubsystem, -1.0, 0.0).withTimeout(5.0)
+    val teleopCommand: Command = ArcadeDriveCommand(driveSubsystem, IO.stick.joystick.getX(), IO.stick.joystick.getY())
 }

@@ -3,6 +3,7 @@ package frc.robot
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import frc.robot.commands.ArcadeDriveCommand
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
  */
 class Robot : TimedRobot() {
     private var autonomousCommand: Command? = null
+    private var teleopCommand : Command? = null
     private var robotContainer: RobotContainer? = null
 
     /**
@@ -60,6 +62,7 @@ class Robot : TimedRobot() {
 
     /** This function is called once when teleop is enabled.  */
     override fun teleopInit() {
+        teleopCommand = robotContainer?.teleopCommand
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -69,7 +72,10 @@ class Robot : TimedRobot() {
     }
 
     /** This function is called periodically during operator control.  */
-    override fun teleopPeriodic() {}
+    override fun teleopPeriodic() {
+        teleopCommand?.schedule()
+        
+    }
 
     /** This function is called once when test mode is enabled.  */
     override fun testInit() {
