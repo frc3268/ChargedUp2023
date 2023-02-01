@@ -33,7 +33,7 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        Trigger {IO.firstButton}.onTrue(ArcadeDriveCommand(driveSubsystem, IO.joystick))
+        Trigger {IO.stick.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, IO.stick.joystick))
 
     }
 
@@ -46,6 +46,6 @@ class RobotContainer {
         get() {
             // An example command will be run in autonomous
             //return Autos.exampleAuto(exampleSubsystem)
-            return ArcadeDriveCommand(driveSubsystem, IO.joystick)
+            return ArcadeDriveCommand(driveSubsystem, IO.stick.joystick)
         }
 }
