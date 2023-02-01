@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger
 import edu.wpi.first.wpilibj.Joystick
 import frc.robot.commands.ArcadeDriveCommand
 import frc.robot.subsystems.DriveSubsystem
+import frc.robot.IO
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -15,8 +16,7 @@ import frc.robot.subsystems.DriveSubsystem
  */
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private val exampleSubsystem = DriveSubsystem()
-    private val Joystick = Joystick(Constants.OperatorConstants.JoystickPort)
+    private val driveSubsystem = DriveSubsystem()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands.  */
     init {
@@ -33,7 +33,7 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        Trigger { exampleSubsystem.exampleCondition() }.onTrue(ArcadeDriveCommand(exampleSubsystem, Joystick))
+        Trigger {IO.firstButton}.onTrue(ArcadeDriveCommand(driveSubsystem, IO.joystick))
 
     }
 
@@ -46,6 +46,6 @@ class RobotContainer {
         get() {
             // An example command will be run in autonomous
             //return Autos.exampleAuto(exampleSubsystem)
-            return ArcadeDriveCommand(exampleSubsystem, Joystick)
+            return ArcadeDriveCommand(driveSubsystem, IO.joystick)
         }
 }

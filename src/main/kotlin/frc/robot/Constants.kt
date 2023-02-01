@@ -12,6 +12,7 @@ package frc.robot
 class Constants {
     object OperatorConstants {
         const val JoystickPort = 0
+        const val FirstButton = 1
     }
     object driveConstants {
         const val driveLeftFrontID = 1
