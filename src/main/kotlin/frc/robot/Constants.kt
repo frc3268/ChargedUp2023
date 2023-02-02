@@ -20,4 +20,15 @@ class Constants {
         const val driveRightFrontID = 3
         const val driveRightBackID = 4
     }
+
+    data class Arm (
+        var motorPort:Int,
+        var kp:Double,
+        var ki:Double,
+        var kd:Double,
+        var kiz:Double,
+        var kff:Double,
+        var kmaxoutput:Double,
+        var kminoutput:Double,
+    )
 }

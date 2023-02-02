@@ -5,13 +5,21 @@ import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
 import com.revrobotics.RelativeEncoder
 import com.revrobotics.SparkMaxPIDController
+import frc.robot.Constants
 
-class ControlledArmSubsystem : SubsystemBase() {
-    val motor:CANSparkMax = CANSparkMax(0, MotorType.kBrushless)
+class ControlledArmSubsystem(ArmConsts: Constants.Arm) : SubsystemBase() {
+    val motor:CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder:RelativeEncoder = motor.getEncoder()
     val pidcontroller:SparkMaxPIDController = motor.getPIDController()
-    //TODO: PID COES
 
+    init{
+        pidcontroller.setP(ArmConsts.kp)
+        pidcontroller.setI(ArmConsts.ki)
+        pidcontroller.setD(ArmConsts.kd)
+        pidcontroller.setIZone(ArmConsts.kiz)
+        pidcontroller.setFF(ArmConsts.kff)
+        pidcontroller.setOutputRange(ArmConsts.kminoutput, ArmConsts.kmaxoutput)
+    }
 
     override fun periodic() {
         // This method will be called once per scheduler run
@@ -32,6 +40,7 @@ class ControlledArmSubsystem : SubsystemBase() {
         val toMove:Double = (if (current > goalPos)    (Math.abs(current - goalPos) / (2*Math.PI) ) else (current - goalPos / (2*Math.PI)))
         pidcontroller.setReference(toMove, CANSparkMax.ControlType.kPosition)
     }
+
 
     
 }
