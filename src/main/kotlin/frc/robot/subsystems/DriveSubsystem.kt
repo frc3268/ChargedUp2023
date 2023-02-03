@@ -20,8 +20,11 @@ class DriveSubsystem : SubsystemBase() {
     public val driveRight:MotorControllerGroup = MotorControllerGroup(driveRightBack, driveRightBack)
     //Drive
     public val drive:DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
-    //invert left(?)
-    driveLeft.setInverted(true)
+    
+    init{
+        //inversion
+        driveLeft.setInverted(true)
+    }
 
     /**
      * Example command factory method.
