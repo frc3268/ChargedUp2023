@@ -15,10 +15,10 @@ class Constants {
         const val FirstButton = 1
     }
     object driveConstants {
-        const val driveLeftFrontID = 1
-        const val driveLeftBackID = 2
-        const val driveRightFrontID = 3
-        const val driveRightBackID = 4
+        const val driveLeftFrontID = 0
+        const val driveLeftBackID = 1
+        const val driveRightFrontID = 2
+        const val driveRightBackID = 3
     }
 
     data class Arm (
