@@ -24,6 +24,7 @@ class Robot : TimedRobot() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = RobotContainer()
+
     }
 
     /**
@@ -69,11 +70,11 @@ class Robot : TimedRobot() {
         // this line or comment it out.
         // Note the Kotlin safe-call(?.), this ensures autonomousCommand is not null before cancelling it
         autonomousCommand?.cancel()
+        teleopCommand?.schedule()
     }
 
     /** This function is called periodically during operator control.  */
     override fun teleopPeriodic() {
-        teleopCommand?.schedule()
         
     }
 

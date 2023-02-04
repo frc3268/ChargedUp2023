@@ -17,6 +17,7 @@ import frc.robot.IO
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
+    private val io = IO()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands.  */
     init {
@@ -33,7 +34,7 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        Trigger {IO.stick.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
+        //Trigger {io.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
 
     }
 
@@ -42,6 +43,6 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command= ArcadeDriveCommand(driveSubsystem, -1.0, 0.0).withTimeout(5.0)
-    val teleopCommand: Command = ArcadeDriveCommand(driveSubsystem, IO.stick.joystick.getX(), IO.stick.joystick.getY())
+    val autonomousCommand: Command= ArcadeDriveCommand(driveSubsystem, 0.0, 1.0).withTimeout(5.0)
+    val teleopCommand: Command = ArcadeDriveCommand(driveSubsystem, io.joystick.getX(), io.joystick.getY())
 }
