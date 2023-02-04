@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController
 import edu.wpi.first.wpilibj2.command.button.Trigger
 import edu.wpi.first.wpilibj.Joystick
 import frc.robot.commands.ArcadeDriveCommand
+import frc.robot.commands.JoystickArcadeDrive
 import frc.robot.subsystems.DriveSubsystem
 import frc.robot.IO
 
@@ -44,5 +45,5 @@ class RobotContainer {
      * @return the command to run in autonomous
      */
     val autonomousCommand: Command= ArcadeDriveCommand(driveSubsystem, 0.0, 1.0).withTimeout(5.0)
-    val teleopCommand: Command = ArcadeDriveCommand(driveSubsystem, io.joystick.getX(), io.joystick.getY())
+    val teleopCommand: Command = JoystickArcadeDrive(driveSubsystem, io)
 }
