@@ -23,7 +23,9 @@ class JoystickArcadeDrive (subsystem: DriveSubsystem, stick:IO): CommandBase() {
      }
 
     // Called once the command ends or is interrupted.
-    override fun end(interrupted: Boolean) { }
+    override fun end(interrupted: Boolean) {
+        driveSubsystem.drive.stopMotor()
+     }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
