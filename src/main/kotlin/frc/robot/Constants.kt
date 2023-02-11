@@ -14,11 +14,12 @@ class Constants {
         const val JoystickPort = 0
         const val FirstButton = 1
     }
-    object driveConstants {
+    object motorConstants {
         const val driveLeftFrontID = 0
         const val driveLeftBackID = 1
         const val driveRightFrontID = 2
         const val driveRightBackID = 3
+        const val gripperPort = 4
     }
 
     data class Arm (
