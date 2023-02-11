@@ -32,4 +32,7 @@ class Constants {
         var kmaxoutput:Double,
         var kminoutput:Double,
     )
+
+    val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
+    val secondArm:Arm = Arm(2, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
 }

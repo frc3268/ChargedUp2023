@@ -6,7 +6,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger
 import edu.wpi.first.wpilibj.Joystick
 import frc.robot.commands.ArcadeDriveCommand
 import frc.robot.commands.JoystickArcadeDrive
+import frc.robot.commands.TankDriveCommand
 import frc.robot.subsystems.DriveSubsystem
+import frc.robot.subsystems.ControlledArmSubsystem
+import frc.robot.Constants
 import frc.robot.IO
 
 /**
@@ -18,6 +21,9 @@ import frc.robot.IO
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
+    private val Constants = Constants()
+    //private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
+    //private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands.  */

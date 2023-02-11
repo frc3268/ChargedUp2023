@@ -5,9 +5,9 @@ import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
 import com.revrobotics.RelativeEncoder
 import com.revrobotics.SparkMaxPIDController
-import frc.robot.Constants
+import frc.robot.Constants.Arm
 
-class ControlledArmSubsystem(ArmConsts: Constants.Arm) : SubsystemBase() {
+class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor:CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder:RelativeEncoder = motor.getEncoder()
     val pidcontroller:SparkMaxPIDController = motor.getPIDController()
