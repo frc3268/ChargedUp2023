@@ -11,13 +11,13 @@ import frc.robot.Constants
 
 class DriveSubsystem : SubsystemBase() {
     //Controllers
-    public val driveLeftFront:PWMSparkMax = PWMSparkMax(Constants.driveConstants.driveLeftFrontID)
-    public val driveLeftBack:PWMSparkMax = PWMSparkMax(Constants.driveConstants.driveLeftBackID)
-    public val driveRightFront:PWMSparkMax = PWMSparkMax(Constants.driveConstants.driveRightFrontID)
-    public val driveRightBack:PWMSparkMax = PWMSparkMax(Constants.driveConstants.driveRightBackID)
+    private val driveLeftFront:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveLeftFrontID)
+    private val driveLeftBack:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveLeftBackID)
+    private val driveRightFront:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveRightFrontID)
+    private val driveRightBack:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveRightBackID)
     //Groups
-    public val driveLeft:MotorControllerGroup = MotorControllerGroup(driveLeftFront, driveLeftBack)
-    public val driveRight:MotorControllerGroup = MotorControllerGroup(driveRightBack, driveRightBack)
+    private val driveLeft:MotorControllerGroup = MotorControllerGroup(driveLeftFront, driveLeftBack)
+    private val driveRight:MotorControllerGroup = MotorControllerGroup(driveRightBack, driveRightBack)
     //Drive
     public val drive:DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
     
@@ -27,24 +27,19 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     /**
-     * Example command factory method.
-     *
-     * @return a command
+     * Method to get gyro angle for balancing
+     * @param axis the axis to get from gyro, pitch is 1, roll is 2, and yaw is 3
+     * @return gyro reading on the requested axis
      */
-    fun exampleMethodCommand(): CommandBase {
-        // Inline construction of command goes here.
-        // runOnce implicitly requires this subsystem.
-        return runOnce {}
-    }
-
-    /**
-     * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-     *
-     * @return value of some boolean subsystem state, such as a digital sensor.
-     */
-    fun exampleCondition(): Boolean {
-        // Query some boolean state, such as a digital sensor.
-        return false
+    fun getGyroAngle(axis:Int): Double {
+        when(axis){
+            1 -> return 0.0
+            2 -> return 0.0
+            3 -> return 0.0
+            else{
+                return 0.0
+            }
+        }
     }
 
     /** This method will be called once per scheduler run  */

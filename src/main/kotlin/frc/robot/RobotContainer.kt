@@ -50,6 +50,7 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command= TankDriveCommand(driveSubsystem, 1.0, 1.0).withTimeout(5.0)
+    val autonomousCommand: Command= ArcadeDriveCommand(driveSubsystem, 0.0, 1.0).withTimeout(5.0)
+
     val teleopCommand: Command = JoystickArcadeDrive(driveSubsystem, io)
 }
