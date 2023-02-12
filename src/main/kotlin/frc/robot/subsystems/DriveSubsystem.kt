@@ -2,6 +2,7 @@ package frc.robot.subsystems
 
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
@@ -39,6 +40,13 @@ class DriveSubsystem : SubsystemBase() {
             else{
                 return 0.0
             }
+        }
+    }
+
+    //balance by setting speed proportional to angle.
+    fun autoBalance(): Command{
+        return run{
+            drive.arcadeDrive(Math.sin(getGyroAngle(1)*(Math.PI/180)) * -1, 0.0)
         }
     }
 
