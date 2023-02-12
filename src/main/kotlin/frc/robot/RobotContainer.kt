@@ -42,7 +42,7 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         //Trigger {io.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
-
+        Trigger{io.firstButton.asBoolean}.toggleOnTrue(driveSubsystem.autoBalance())
     }
 
     /**
