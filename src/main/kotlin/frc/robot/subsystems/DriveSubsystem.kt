@@ -7,15 +7,16 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
+import com.revrobotics.CANSparkMax
 import frc.robot.Constants
 
 
 class DriveSubsystem : SubsystemBase() {
     //Controllers
-    private val driveLeftFront:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveLeftFrontID)
-    private val driveLeftBack:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveLeftBackID)
-    private val driveRightFront:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveRightFrontID)
-    private val driveRightBack:PWMSparkMax = PWMSparkMax(Constants.motorConstants.driveRightBackID)
+    private val driveLeftFront:CANSparkMax = CANSparkMax(Constants.motorConstants.driveLeftFrontID, MotorType.kBrushless)
+    private val driveLeftBack:CANSparkMax = CANSparkMax(Constants.motorConstants.driveLeftBackID, MotorType.kBrushless)
+    private val driveRightFront:CANSparkMax = CANSparkMax(Constants.motorConstants.driveRightFrontID, MotorType.kBrushless)
+    private val driveRightBack:CANSparkMax = CANSparkMax(Constants.motorConstants.driveRightBackID, MotorType.kBrushless)
     //Groups
     private val driveLeft:MotorControllerGroup = MotorControllerGroup(driveLeftFront, driveLeftBack)
     private val driveRight:MotorControllerGroup = MotorControllerGroup(driveRightBack, driveRightBack)
