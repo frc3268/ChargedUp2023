@@ -38,9 +38,7 @@ class DriveSubsystem : SubsystemBase() {
             1 -> return 0.0
             2 -> return 0.0
             3 -> return 0.0
-            else{
-                return 0.0
-            }
+            else -> return 0.0
         }
     }
 
