@@ -16,6 +16,11 @@ class CameraSubsystem : SubsystemBase() {
         frame = cam.getLatestResult()
     }
 
+    fun takePicture(proscessed:Boolean) {
+        (if (proscessed) (cam.takeOutputSnapshot()) else (cam.takeInputSnapshot()))
+    }
+
+
     override fun simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
     }
