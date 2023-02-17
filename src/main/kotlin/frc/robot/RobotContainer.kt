@@ -23,7 +23,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     private val Constants = Constants()
-    private val cameraSubsystem = CameraSubsystem()
+    public val cameraSubsystem = CameraSubsystem()
     //private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
     //private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
