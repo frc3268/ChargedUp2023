@@ -44,8 +44,8 @@ class Constants {
     )
 
     data class movementTarget(
-        val distance:Double
-        val yaw:Double
+        val distance:Double,
+        val yaw:Double,
     )
 
     val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
