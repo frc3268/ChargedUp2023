@@ -9,6 +9,7 @@ import frc.robot.commands.JoystickArcadeDrive
 import frc.robot.commands.TankDriveCommand
 import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
+import frc.robot.subsystems.CameraSubsystem
 import frc.robot.Constants
 import frc.robot.IO
 
@@ -22,6 +23,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     private val Constants = Constants()
+    private val cameraSubsystem = CameraSubsystem()
     //private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
     //private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
