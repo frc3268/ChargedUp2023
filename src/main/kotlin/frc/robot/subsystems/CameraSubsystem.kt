@@ -6,7 +6,7 @@ import org.photonvision.targeting.PhotonPipelineResult
 
 
 class CameraSubsystem : SubsystemBase() {
-    val cam:PhotonCamera = PhotonCamera("CCP SPY BALOON")
+    val cam:PhotonCamera = PhotonCamera("CCP BALOON CAMERA")
     var frame:PhotonPipelineResult? = null
     
 
