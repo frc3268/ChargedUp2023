@@ -8,8 +8,8 @@ import frc.robot.Constants
 
 
 class CameraSubsystem : SubsystemBase() {
-    val cam:PhotonCamera = PhotonCamera("CCP SPY BALOON")
-    var frame:PhotonPipelineResult = PhotonPipelineResult()
+    val cam:PhotonCamera = PhotonCamera("CCP BALOON CAMERA")
+    var frame:PhotonPipelineResult? = null
     
 
 

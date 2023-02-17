@@ -63,6 +63,7 @@ class Robot : TimedRobot() {
 
     /** This function is called once when teleop is enabled.  */
     override fun teleopInit() {
+        robotContainer?.cameraSubsystem?.takePicture(true)
         teleopCommand = robotContainer?.teleopCommand
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -82,6 +83,7 @@ class Robot : TimedRobot() {
     override fun testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
+
     }
 
     /** This function is called periodically during test mode.  */
