@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.util.Units
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult
 import frc.robot.Constants
@@ -8,7 +9,7 @@ import frc.robot.Constants
 
 class CameraSubsystem : SubsystemBase() {
     val cam:PhotonCamera = PhotonCamera("CCP SPY BALOON")
-    var frame:PhotonPipelineResult? = null
+    var frame:PhotonPipelineResult = PhotonPipelineResult()
     
 
 
@@ -23,12 +24,10 @@ class CameraSubsystem : SubsystemBase() {
 
     
 
-    fun distanceToBestTarget():Double{
-        frame?:return Constants.errorCodes.frameNotFoundError
-        frame?.getBestTarget()
-       
-        return 0.0
-        
+    fun distanceToBestTarget(targetHeight: Double):Double{
+        !frame.hasTargets()?return Constants.errorCodes.frameNotFoundError
+        val pitch:Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
+        return (targetHeight - Constants.setHeights.camera) / Math.tan(pitch)
     }
 
 
