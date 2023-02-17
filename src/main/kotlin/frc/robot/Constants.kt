@@ -22,6 +22,11 @@ class Constants {
         const val gripperPort = 5
     }
 
+    object errorCodes {
+        const val frameNotFoundError = -1.0
+        const val targetsNotFoundError = -2.0
+    }
+
     data class Arm (
         val motorPort:Int,
         val kp:Double,
@@ -31,6 +36,11 @@ class Constants {
         val kff:Double,
         val kmaxoutput:Double,
         val kminoutput:Double,
+    )
+
+    data class targetResults(
+        val pitch:Int
+        val yaw:Int
     )
 
     val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)

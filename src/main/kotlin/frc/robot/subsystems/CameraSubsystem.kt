@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult
+import frc.robot.Constants
 
 
 class CameraSubsystem : SubsystemBase() {
@@ -18,6 +19,16 @@ class CameraSubsystem : SubsystemBase() {
 
     fun takePicture(proscessed:Boolean) {
         (if (proscessed) (cam.takeOutputSnapshot()) else (cam.takeInputSnapshot()))
+    }
+
+    
+
+    fun distanceToBestTarget():Double{
+        frame?:return Constants.errorCodes.frameNotFoundError
+        frame?.getBestTarget()
+       
+        return 0.0
+        
     }
 
 
