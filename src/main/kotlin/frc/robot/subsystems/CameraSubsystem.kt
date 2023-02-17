@@ -2,6 +2,7 @@ package frc.robot.subsystems
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units
+import edu.wpi.first.math.geometry.Translation2d
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult
 import frc.robot.Constants
@@ -24,10 +25,11 @@ class CameraSubsystem : SubsystemBase() {
 
     
 
-    fun distanceToBestTarget(targetHeight: Double):Double{
-        !frame.hasTargets()?return Constants.errorCodes.frameNotFoundError
+    fun movementToTarget(targetHeight: Double):Constants.movementTarget{
+        if(!frame.hasTargets()) (return Constants.movementTarget(Constants.errorCodes.targetsNotFoundError, Constants.errorCodes.targetsNotFoundError))
         val pitch:Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        return (targetHeight - Constants.setHeights.camera) / Math.tan(pitch)
+        val dist:Double = targetHeight - Constants.setHeights.camera / Math.tan(pitch)
+        return Constants.movementTarget(dist, frame.getBestTarget().getYaw())
     }
 
 
