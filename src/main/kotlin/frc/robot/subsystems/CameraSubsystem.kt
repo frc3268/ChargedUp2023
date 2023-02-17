@@ -3,15 +3,17 @@ package frc.robot.subsystems
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units
 import edu.wpi.first.math.geometry.Translation2d
+import edu.wpi.first.apriltag.AprilTagFieldLayout
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult
+import org.photonvision.PhotonPoseEstimator
 import frc.robot.Constants
 
 
 class CameraSubsystem : SubsystemBase() {
     val cam:PhotonCamera = PhotonCamera("CCP BALOON CAMERA")
     var frame:PhotonPipelineResult = PhotonPipelineResult()
-    
+    val poseEstimator:PhotonPoseEstimator = PhotonPoseEstimator(AprilTagFieldLayout(), strategy, cam, robotToCamera)
 
 
     override fun periodic() {
