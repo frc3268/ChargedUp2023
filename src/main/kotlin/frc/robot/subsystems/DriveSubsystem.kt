@@ -54,12 +54,12 @@ class DriveSubsystem : SubsystemBase() {
         drive.stopMotor()
     }
 
-    fun arcadeDriveCommand(fwd: Double, rot: Double): Command {
-        return run { drive.arcadeDrive(fwd, rot) }
+    public fun arcadeDrive(fwd: Double, rot: Double) {
+        drive.arcadeDrive(fwd, rot)
     }
 
-    fun TankDriveCommand(left: Double, right: Double): Command {
-        return run { drive.tankDrive(left, right) }
+    fun tankDrive(left: Double, right: Double) {
+        drive.tankDrive(left, right)
     }
 
     /** This method will be called once per scheduler run */
