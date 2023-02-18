@@ -21,7 +21,7 @@ class DriveSubsystem : SubsystemBase() {
     private val driveLeft:MotorControllerGroup = MotorControllerGroup(driveLeftFront, driveLeftBack)
     private val driveRight:MotorControllerGroup = MotorControllerGroup(driveRightBack, driveRightBack)
     //Drive
-    public val drive:DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
+    private val drive:DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
     
     init{
         //inversion
@@ -43,9 +43,25 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     //balance by setting speed proportional to angle.
-    fun autoBalance(): Command{
+    fun autoBalanceCommand(): Command{
         return run{
             drive.arcadeDrive(Math.sin(getGyroAngle(1)*(Math.PI/180)) * -1, 0.0)
+        }
+    }
+
+    fun stopMotor() {
+        drive.stopMotor()
+    }
+
+    fun arcadeDriveCommand(fwd:Double, rot:Double) : Command{
+        return run {
+            drive.arcadeDrive(fwd, rot)
+        }
+    }
+
+    fun TankDriveCommand(left:Double, right:Double): Command{
+        return run{
+            drive.tankDrive(left, right)
         }
     }
 
