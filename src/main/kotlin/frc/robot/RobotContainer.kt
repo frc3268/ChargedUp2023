@@ -50,5 +50,5 @@ class RobotContainer {
             driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
     val teleopCommand: Command =
-            driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getX() }).until({!driveSubsystem.joystickOn})
+            driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getX() })
 }
