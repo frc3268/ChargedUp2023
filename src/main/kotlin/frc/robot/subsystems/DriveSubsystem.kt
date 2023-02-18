@@ -28,6 +28,7 @@ class DriveSubsystem : SubsystemBase() {
     private val drive: DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
 
     // once periodic starts, the joystick mode will be activated.
+    //? is this needed ?
     public var joystickOn: Boolean = true
 
     init {
