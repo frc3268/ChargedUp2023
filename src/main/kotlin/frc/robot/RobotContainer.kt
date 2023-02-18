@@ -3,9 +3,6 @@ package frc.robot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController
 import edu.wpi.first.wpilibj2.command.button.Trigger
-import edu.wpi.first.wpilibj2.command.Commands
-import edu.wpi.first.wpilibj2.command.InstantCommand
-import frc.robot.commands.JoystickArcadeDrive
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
 
@@ -49,7 +46,9 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = Commands.run(() -> driveSubsystem.arcadeDrive(1.0, 0.0))
+    val autonomousCommand: Command =
+            driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
-    val teleopCommand: Command = JoystickArcadeDrive(driveSubsystem, io.joystick)
+    val teleopCommand: Command =
+            driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getX() }).until({!driveSubsystem.joystickOn})
 }

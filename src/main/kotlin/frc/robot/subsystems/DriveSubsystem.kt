@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import java.util.function.DoubleSupplier
 
 class DriveSubsystem : SubsystemBase() {
     // Controllers
@@ -25,6 +26,9 @@ class DriveSubsystem : SubsystemBase() {
             MotorControllerGroup(driveRightBack, driveRightBack)
     // Drive
     private val drive: DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
+
+    // once periodic starts, the joystick mode will be activated.
+    public var joystickOn: Boolean = true
 
     init {
         // inversion
@@ -45,11 +49,6 @@ class DriveSubsystem : SubsystemBase() {
         }
     }
 
-    // balance by setting speed proportional to angle.
-    fun autoBalanceCommand(): Command {
-        return run { drive.arcadeDrive(Math.sin(getGyroAngle(1) * (Math.PI / 180)) * -1, 0.0) }
-    }
-
     fun stopMotor() {
         drive.stopMotor()
     }
@@ -62,6 +61,14 @@ class DriveSubsystem : SubsystemBase() {
         drive.tankDrive(left, right)
     }
 
+    // balance by setting speed proportional to angle.
+    fun autoBalanceCommand(): Command {
+        return run { drive.arcadeDrive(Math.sin(getGyroAngle(1) * (Math.PI / 180)) * -1, 0.0) }
+    }
+
+    fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command {
+        return run { arcadeDrive(fwd.getAsDouble(), rot.getAsDouble()) }.finallyDo { stopMotor() }
+    }
     /** This method will be called once per scheduler run */
     override fun periodic() {}
 
