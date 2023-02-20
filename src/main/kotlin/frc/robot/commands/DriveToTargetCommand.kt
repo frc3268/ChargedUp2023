@@ -30,7 +30,9 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     }
 
     // Called once the command ends or is interrupted.
-    override fun end(interrupted: Boolean) {}
+    override fun end(interrupted: Boolean) {
+        drive.stopMotor()
+    }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
