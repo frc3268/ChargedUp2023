@@ -70,13 +70,12 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun pidSpeedsCalculate(
-            dist: Double,
+            target : Constants.movementTarget
             goalDist: Double,
-            angle: Double
     ): Constants.arcadeDriveSpeeds {
         return Constants.arcadeDriveSpeeds(
-                forwardController.calculate(dist, goalDist),
-                turnController.calculate(angle, 0.0)
+                forwardController.calculate(target.distance, goalDist),
+                turnController.calculate(target.yaw, 0.0)
         )
     }
 
