@@ -2,6 +2,7 @@ package frc.robot.subsystems
 
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
+import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj2.command.Command
@@ -28,8 +29,18 @@ class DriveSubsystem : SubsystemBase() {
     private val drive: DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
 
     // once periodic starts, the joystick mode will be activated.
-    //? is this needed ?
+    // ? is this needed ?
     public var joystickOn: Boolean = true
+
+    // PID
+    // PID constants should be tuned per robot
+    val linearP: Double = 0.1
+    val linearD: Double = 0.0
+    val forwardController: PIDController = PIDController(linearP, 0.0, linearD)
+
+    val angularP: Double = 0.1
+    val angularD: Double = 0.0
+    val turnController = PIDController(angularP, 0.0, angularD)
 
     init {
         // inversion
@@ -54,8 +65,19 @@ class DriveSubsystem : SubsystemBase() {
         drive.stopMotor()
     }
 
-    public fun arcadeDrive(fwd: Double, rot: Double) {
-        drive.arcadeDrive(fwd, rot)
+    public fun arcadeDrive(speeds: Constants.arcadeDriveSpeeds) {
+        drive.arcadeDrive(speeds.fwd, speeds.rot)
+    }
+
+    public fun pidSpeedsCalculate(
+            dist: Double,
+            goalDist: Double,
+            angle: Double
+    ): Constants.arcadeDriveSpeeds {
+        return Constants.arcadeDriveSpeeds(
+                forwardController.calculate(dist, goalDist),
+                turnController.calculate(angle, 0.0)
+        )
     }
 
     fun tankDrive(left: Double, right: Double) {
@@ -68,7 +90,10 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command {
-        return run { arcadeDrive(fwd.getAsDouble(), rot.getAsDouble()) }.finallyDo { stopMotor() }
+        return run {
+            arcadeDrive(Constants.arcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
+        }
+                .finallyDo { stopMotor() }
     }
     /** This method will be called once per scheduler run */
     override fun periodic() {}

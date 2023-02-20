@@ -32,6 +32,10 @@ class Constants {
         const val camera = 0.381   //15 inches up
     }
 
+    object setDistances{
+        const val goalDistLow = 0.0 //!fix
+    }
+
     data class Arm (
         val motorPort:Int,
         val kp:Double,
@@ -46,6 +50,11 @@ class Constants {
     data class movementTarget(
         val distance:Double,
         val yaw:Double,
+    )
+
+    data class arcadeDriveSpeeds(
+        val fwd:Double,
+        val rot:Double
     )
 
     val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
