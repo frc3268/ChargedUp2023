@@ -21,9 +21,13 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
+        val range:Double = camera.movementToTarget(height).distance
+        if(range < dist){
+            end(false)
+        }
         drive.arcadeDrive(
                 drive.pidSpeedsCalculate(
-                        camera.movementToTarget(height),
+                        range,
                         dist
                 )
         )
