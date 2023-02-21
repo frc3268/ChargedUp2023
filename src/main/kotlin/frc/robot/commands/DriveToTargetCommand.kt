@@ -13,7 +13,7 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     val dist:Double = targetDist
     init {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(camera, drive)
+        addRequirements(drive)
     }
 
     // Called when the command is initially scheduled.

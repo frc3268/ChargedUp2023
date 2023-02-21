@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
 import edu.wpi.first.math.controller.PIDController
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj2.command.Command
@@ -41,6 +42,9 @@ class DriveSubsystem : SubsystemBase() {
     val angularP: Double = 0.1
     val angularD: Double = 0.0
     val turnController = PIDController(angularP, 0.0, angularD)
+
+    //kinematics
+    val driveKinematics:DifferentialDriveKinematics = DifferentialDriveKinematics(Constants.driveConsts.kTrackwidthMeters)
 
     init {
         // inversion

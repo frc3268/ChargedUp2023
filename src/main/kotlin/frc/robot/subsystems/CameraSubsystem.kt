@@ -76,6 +76,11 @@ class CameraSubsystem : SubsystemBase() {
         return poseEstimator?.update()?.orElse(null)
     }
 
+    fun resetPose(pose:Pose2d) {
+        poseEstimator ?: return
+        poseEstimator?.setReferencePose(pose)
+    }
+
     override fun simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
     }
