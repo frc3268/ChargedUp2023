@@ -45,6 +45,7 @@ class Constants {
         val kff:Double,
         val kmaxoutput:Double,
         val kminoutput:Double,
+        val armsStartRads:Double
     )
 
     data class movementTarget(
@@ -57,6 +58,6 @@ class Constants {
         val rot:Double
     )
 
-    val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
-    val secondArm:Arm = Arm(2, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0)
+    val firstArm:Arm = Arm(1, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0,0.0)
+    val secondArm:Arm = Arm(2, 5.0,3.0,1.0,0.0,0.0,1.0,-1.0, 0.0)
 }

@@ -5,12 +5,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType
 import com.revrobotics.RelativeEncoder
 import com.revrobotics.SparkMaxPIDController
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.Constants.Arm
+import frc.robot.Constants
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
+    val offset:Double = ArmConsts.armsStartRads
 
     init {
         pidcontroller.setP(ArmConsts.kp)
@@ -36,10 +39,16 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
 
     fun moveToGoal(goalPos: Double) {
         // sets position to a given amount of radians, hopefully it works
-        val current: Double = encoder.getPosition() * (2 * Math.PI)
+        val current: Double = encoder.getPosition() * (2 * Math.PI) + offset
         val toMove: Double =
                 (if (current > goalPos) (Math.abs(current - goalPos) / (2 * Math.PI))
                 else (current - goalPos / (2 * Math.PI)))
         pidcontroller.setReference(toMove, CANSparkMax.ControlType.kPosition)
+    }
+
+    fun resetPos() : Command{
+        return runOnce{
+            moveToGoal(offset)
+        }
     }
 }
