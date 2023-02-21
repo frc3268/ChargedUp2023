@@ -42,8 +42,8 @@ class Constants {
         const val kvVoltSecondsPerMeter = 0.0,
         const val kaVoltSecondsSquaredPerMeter = 0.0,
         const val kPDriveVel = 0.0,
-        const val kMaxSpeedMetersPerSecond = 3,
-        const val kMaxAccelerationMetersPerSecondSquared = 1,
+        const val kMaxSpeedMetersPerSecond = 3.0,
+        const val kMaxAccelerationMetersPerSecondSquared = 1.0,
         //distance between wheels
         const val kTrackwidthMeters = 0.0,
         //ramsete config, can be kept as is

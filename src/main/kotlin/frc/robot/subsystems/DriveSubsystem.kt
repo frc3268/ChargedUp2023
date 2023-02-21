@@ -3,7 +3,10 @@ package frc.robot.subsystems
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
 import edu.wpi.first.math.controller.PIDController
+import edu.wpi.first.math.controller.SimpleMotorFeedforward
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics
+import edu.wpi.first.math.trajectory.TrajectoryConfig
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj2.command.Command
@@ -43,8 +46,35 @@ class DriveSubsystem : SubsystemBase() {
     val angularD: Double = 0.0
     val turnController = PIDController(angularP, 0.0, angularD)
 
-    //kinematics
-    val driveKinematics:DifferentialDriveKinematics = DifferentialDriveKinematics(Constants.driveConsts.kTrackwidthMeters)
+    // kinematics and odometry
+    val driveKinematics: DifferentialDriveKinematics =
+            DifferentialDriveKinematics(Constants.driveConsts.kTrackwidthMeters)
+    var voltageConstraint =
+            DifferentialDriveVoltageConstraint(
+                    SimpleMotorFeedforward(
+                            Constants.driveConsts.ksVolts,
+                            Constants.driveConsts.kvVoltSecondsPerMeter,
+                            Constants.driveConsts.kaVoltSecondsSquaredPerMeter
+                    ),
+                    driveKinematics,
+                    10.0
+            )
+
+    // Create config for trajectory
+
+    var trajectoryConfig: TrajectoryConfig =
+            TrajectoryConfig(
+                            Constants.driveConsts.kMaxSpeedMetersPerSecond,
+                            Constants.driveConsts.kMaxAccelerationMetersPerSecondSquared
+                    )
+
+                    // Add kinematics to ensure max speed is actually obeyed
+
+                    .setKinematics(driveKinematics)
+
+                    // Apply the voltage constraint
+
+                    .addConstraint(voltageConstraint)
 
     init {
         // inversion
@@ -74,7 +104,7 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun pidSpeedsCalculate(
-            target : Constants.movementTarget,
+            target: Constants.movementTarget,
             goalDist: Double
     ): Constants.arcadeDriveSpeeds {
         return Constants.arcadeDriveSpeeds(
