@@ -70,8 +70,8 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun pidSpeedsCalculate(
-            target : Constants.movementTarget
-            goalDist: Double,
+            target : Constants.movementTarget,
+            goalDist: Double
     ): Constants.arcadeDriveSpeeds {
         return Constants.arcadeDriveSpeeds(
                 forwardController.calculate(target.distance, goalDist),
