@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController
 import edu.wpi.first.wpilibj2.command.button.Trigger
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
-
+-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the [Robot]
@@ -47,8 +47,15 @@ class RobotContainer {
      * @return the command to run in autonomous
      */
     val autonomousCommand: Command =
-            driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
+        driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
     val teleopCommand: Command =
-            driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getX() })
+        driveSubsystem.arcadeDriveCommand(
+            {
+                io.joystick.getY()
+            },
+            {
+                io.joystick.getX()
+            }
+        )
 }
