@@ -22,7 +22,6 @@ class RobotContainer {
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
     private val firstArmSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
-    // private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -41,8 +40,8 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        // Trigger {io.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
-        Trigger { io.firstButton.asBoolean }.onTrue(Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem))
+        Trigger { io.firstButton.asBoolean }
+            .onTrue(Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem))
     }
 
     /**
@@ -51,9 +50,7 @@ class RobotContainer {
      * @return the command to run in autonomous
      */
     val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLow, 1.0)
-            //Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem)
-            //driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
     val teleopCommand: Command =
-            driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getZ() })
+        driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getZ() })
 }
