@@ -108,7 +108,7 @@ class DriveSubsystem : SubsystemBase() {
             goalDist: Double
     ): Constants.arcadeDriveSpeeds {
         return Constants.arcadeDriveSpeeds(
-                forwardController.calculate(target.distance, goalDist),
+                -1*forwardController.calculate(target.distance, goalDist),
                 turnController.calculate(target.yaw, 0.0)
         )
     }

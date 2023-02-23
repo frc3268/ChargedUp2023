@@ -9,11 +9,11 @@ package frc.robot
  * constants are needed, to reduce verbosity.
  */
 class Constants {
-    object OperatorConstants {
+    public object OperatorConstants {
         const val JoystickPort = 0
         const val FirstButton = 1
     }
-    object motorConstants {
+    public object motorConstants {
         const val driveLeftFrontID = 1
         const val driveLeftBackID = 2
         const val driveRightFrontID = 3
@@ -21,21 +21,21 @@ class Constants {
         const val gripperPort = 5
     }
 
-    object errorCodes {
+    public object errorCodes {
         const val frameNotFoundError = -1.0
         const val targetsNotFoundError = -2.0
     }
 
-    object setHeights {
+    public object setHeights {
         const val poleTapeLow = 0.61 // 22 inches up
         const val camera = 0.66 // 26 inches up
     }
 
-    object setDistances {
+    public object setDistances {
         const val goalDistLow = 0.0 // !fix
     }
 
-    object driveConsts {
+    public object driveConsts {
         // !system identification to find these constants
         const val ksVolts = 0.0
         const val kvVoltSecondsPerMeter = 0.0
@@ -50,7 +50,7 @@ class Constants {
         const val ramseteZeta = 0.7
     }
 
-    data class Arm(
+    public data class Arm(
             val motorPort: Int,
             val kp: Double,
             val ki: Double,
@@ -62,12 +62,12 @@ class Constants {
             val armsStartRads: Double
     )
 
-    data class movementTarget(
+    public data class movementTarget(
             val distance: Double,
             val yaw: Double,
     )
 
     data class arcadeDriveSpeeds(val fwd: Double, val rot: Double)
 
-    val firstArm: Arm = Arm(5, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.5, 0.5)
+    public val first_Arm: Arm = Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0)
 }

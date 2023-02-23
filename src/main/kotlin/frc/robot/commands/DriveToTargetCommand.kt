@@ -23,7 +23,7 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     override fun execute() {
         val range:Constants.movementTarget = camera.movementToTarget(height)
         if(range.distance < dist){
-            end(false)
+        //    end(false)
         }
         drive.arcadeDrive(
                 drive.pidSpeedsCalculate(

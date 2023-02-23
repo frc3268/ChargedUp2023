@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Commands
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
+import frc.robot.commands.DriveToTargetCommand
+import frc.robot.Constants
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,9 +20,8 @@ import frc.robot.subsystems.ControlledArmSubsystem
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
-    private val Constants = Constants()
     public val cameraSubsystem = CameraSubsystem()
-    private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
+    private val firstArmSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     // private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
 
@@ -49,7 +50,7 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command =Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem)
+    val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLow, 1.0)
             //Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem)
             //driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
