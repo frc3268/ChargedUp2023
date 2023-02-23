@@ -28,7 +28,7 @@ class DriveSubsystem : SubsystemBase() {
     private val driveLeft: MotorControllerGroup =
             MotorControllerGroup(driveLeftFront, driveLeftBack)
     private val driveRight: MotorControllerGroup =
-            MotorControllerGroup(driveRightBack, driveRightBack)
+            MotorControllerGroup(driveRightFront, driveRightBack)
     // Drive
     private val drive: DifferentialDrive = DifferentialDrive(driveLeft, driveRight)
 

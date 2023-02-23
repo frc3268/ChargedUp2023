@@ -3,8 +3,11 @@ package frc.robot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController
 import edu.wpi.first.wpilibj2.command.button.Trigger
+import edu.wpi.first.wpilibj2.command.StartEndCommand
+import edu.wpi.first.wpilibj2.command.Commands
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
+import frc.robot.subsystems.ControlledArmSubsystem
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -17,7 +20,7 @@ class RobotContainer {
     private val driveSubsystem = DriveSubsystem()
     private val Constants = Constants()
     public val cameraSubsystem = CameraSubsystem()
-    // private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
+    private val firstArmSubsystem = ControlledArmSubsystem(Constants.firstArm)
     // private val secondArmSubsystem = ControlledArmSubsystem(Constants.secondArm)
     private val io = IO()
 
@@ -38,7 +41,7 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         // Trigger {io.firstButton.asBoolean}.onTrue(ArcadeDriveCommand(driveSubsystem, 1.0,0.0))
-        Trigger { io.firstButton.asBoolean }.toggleOnTrue(driveSubsystem.autoBalanceCommand())
+        Trigger { io.firstButton.asBoolean }.onTrue(Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem))
     }
 
     /**
@@ -46,8 +49,9 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command =
-            driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
+    val autonomousCommand: Command =Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem)
+            //Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem)
+            //driveSubsystem.arcadeDriveCommand({ 1.0 }, { 0.0 }).withTimeout(3.0)
 
     val teleopCommand: Command =
             driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getX() })
