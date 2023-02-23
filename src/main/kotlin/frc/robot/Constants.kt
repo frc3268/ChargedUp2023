@@ -14,7 +14,7 @@ class Constants {
         PITCH, ROLL, YAW
     }
 
-    object OperatorConstants {
+    public object OperatorConstants {
         const val JoystickPort = 0
         const val FirstButton = 1
     }
@@ -55,7 +55,7 @@ class Constants {
         const val ramseteZeta = 0.7
     }
 
-    public data class Arm(
+    data class Arm(
             val motorPort: Int,
             val kp: Double,
             val ki: Double,
@@ -67,7 +67,7 @@ class Constants {
             val armsStartRads: Double
     )
 
-    public data class movementTarget(
+    data class movementTarget(
             val distance: Double,
             val yaw: Double,
     )
