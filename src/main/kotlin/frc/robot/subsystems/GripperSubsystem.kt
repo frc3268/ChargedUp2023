@@ -6,15 +6,17 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon
 import frc.robot.Constants
 
 class GripperSubsystem : SubsystemBase() {
-    public val motorPort:Int = Constants.motorConstants.gripperPort
-    public val motor:Talon = Talon(motorPort)
-    //start closed
-    public var state:Double = -1.0
 
-    fun changeState() : Command{
-        state = state * -1
+    public val motorPort: Int = Constants.motorConstants.gripperPort
+    public val motor: Talon = Talon(motorPort)
+    public var closed: Boolean = true
+
+    fun toggle() : Command {
+        closed = !closed
         //may want to change settime
-        return runOnce{motor.set(state)}.withTimeout(2.0)
+        return runOnce { motor.set(
+            if(closed) 1.0 else -1.0
+        ) }.withTimeout(2.0)
     }
 
     override fun periodic() {
