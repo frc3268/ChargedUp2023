@@ -34,7 +34,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
 
     fun moveAmount(radians: Double) {
         // rotates x amount of radians, assuming 1 rotation = 2p radians
-        pidcontroller.setReference(radians / (2 * Math.PI), CANSparkMax.ControlType.kPosition)
+        pidcontroller.setReference(radians , CANSparkMax.ControlType.kPosition)
     }
 
     fun moveToGoal(goalPos: Double) {
