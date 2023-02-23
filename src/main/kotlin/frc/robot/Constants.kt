@@ -9,7 +9,12 @@ package frc.robot
  * constants are needed, to reduce verbosity.
  */
 class Constants {
-    public object OperatorConstants {
+
+    enum class Axis {
+        PITCH, ROLL, YAW
+    }
+
+    object OperatorConstants {
         const val JoystickPort = 0
         const val FirstButton = 1
     }
@@ -26,27 +31,27 @@ class Constants {
         const val targetsNotFoundError = -2.0
     }
 
-    public object setHeights {
-        const val poleTapeLow = 0.61 // 22 inches up
-        const val camera = 0.66 // 26 inches up
+    object setHeights {
+        const val poleTapeLow = 0.5588  //22 inches up
+        const val camera = 0.381   //15 inches up
     }
 
-    public object setDistances {
-        const val goalDistLow = 0.0 // !fix
+    object setDistances {
+        const val goalDistLow = 0.0 //!fix
     }
 
-    public object driveConsts {
-        // !system identification to find these constants
+    object driveConsts {
+        //!system identification to find these constants
         const val ksVolts = 0.0
         const val kvVoltSecondsPerMeter = 0.0
         const val kaVoltSecondsSquaredPerMeter = 0.0
         const val kPDriveVel = 0.0
         const val kMaxSpeedMetersPerSecond = 3.0
         const val kMaxAccelerationMetersPerSecondSquared = 1.0
-        // distance between wheels
+        //distance between wheels
         const val kTrackwidthMeters = 0.0
-        // ramsete config, can be kept as is
-        const val kRamseteB = 2
+        //ramsete config, can be kept as is
+        const val kRamseteB = 2 
         const val ramseteZeta = 0.7
     }
 

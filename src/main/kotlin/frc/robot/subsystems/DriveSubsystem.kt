@@ -17,16 +17,16 @@ import java.util.function.DoubleSupplier
 class DriveSubsystem : SubsystemBase() {
     // Controllers
     private val driveLeftFront: CANSparkMax =
-            CANSparkMax(Constants.motorConstants.driveLeftFrontID, MotorType.kBrushless)
+        CANSparkMax(Constants.motorConstants.driveLeftFrontID, MotorType.kBrushless)
     private val driveLeftBack: CANSparkMax =
-            CANSparkMax(Constants.motorConstants.driveLeftBackID, MotorType.kBrushless)
+        CANSparkMax(Constants.motorConstants.driveLeftBackID, MotorType.kBrushless)
     private val driveRightFront: CANSparkMax =
-            CANSparkMax(Constants.motorConstants.driveRightFrontID, MotorType.kBrushless)
+        CANSparkMax(Constants.motorConstants.driveRightFrontID, MotorType.kBrushless)
     private val driveRightBack: CANSparkMax =
-            CANSparkMax(Constants.motorConstants.driveRightBackID, MotorType.kBrushless)
+        CANSparkMax(Constants.motorConstants.driveRightBackID, MotorType.kBrushless)
     // Groups
     private val driveLeft: MotorControllerGroup =
-            MotorControllerGroup(driveLeftFront, driveLeftBack)
+        MotorControllerGroup(driveLeftFront, driveLeftBack)
     private val driveRight: MotorControllerGroup =
             MotorControllerGroup(driveRightFront, driveRightBack)
     // Drive
@@ -48,33 +48,29 @@ class DriveSubsystem : SubsystemBase() {
 
     // kinematics and odometry
     val driveKinematics: DifferentialDriveKinematics =
-            DifferentialDriveKinematics(Constants.driveConsts.kTrackwidthMeters)
+        DifferentialDriveKinematics(Constants.driveConsts.kTrackwidthMeters)
     var voltageConstraint =
-            DifferentialDriveVoltageConstraint(
-                    SimpleMotorFeedforward(
-                            Constants.driveConsts.ksVolts,
-                            Constants.driveConsts.kvVoltSecondsPerMeter,
-                            Constants.driveConsts.kaVoltSecondsSquaredPerMeter
-                    ),
-                    driveKinematics,
-                    10.0
-            )
+        DifferentialDriveVoltageConstraint(
+            SimpleMotorFeedforward(
+                Constants.driveConsts.ksVolts,
+                Constants.driveConsts.kvVoltSecondsPerMeter,
+                Constants.driveConsts.kaVoltSecondsSquaredPerMeter
+            ),
+            driveKinematics,
+            10.0
+        )
 
     // Create config for trajectory
 
     var trajectoryConfig: TrajectoryConfig =
-            TrajectoryConfig(
-                            Constants.driveConsts.kMaxSpeedMetersPerSecond,
-                            Constants.driveConsts.kMaxAccelerationMetersPerSecondSquared
-                    )
-
-                    // Add kinematics to ensure max speed is actually obeyed
-
-                    .setKinematics(driveKinematics)
-
-                    // Apply the voltage constraint
-
-                    .addConstraint(voltageConstraint)
+        TrajectoryConfig(
+            Constants.driveConsts.kMaxSpeedMetersPerSecond,
+            Constants.driveConsts.kMaxAccelerationMetersPerSecondSquared
+        )
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(driveKinematics)
+            // Apply the voltage constraint
+            .addConstraint(voltageConstraint)
 
     init {
         // inversion
@@ -86,11 +82,11 @@ class DriveSubsystem : SubsystemBase() {
      * @param axis the axis to get from gyro, pitch is 1, roll is 2, and yaw is 3
      * @return gyro reading on the requested axis
      */
-    fun getGyroAngle(axis: Int): Double {
-        when (axis) {
-            1 -> return 0.0
-            2 -> return 0.0
-            3 -> return 0.0
+    fun getGyroAngle(axis: Constants.Axis): Double {
+        when(axis){
+            Constants.Axis.PITCH -> return 0.0
+            Constants.Axis.ROLL -> return 0.0
+            Constants.Axis.YAW -> return 0.0
             else -> return 0.0
         }
     }
@@ -104,30 +100,30 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun pidSpeedsCalculate(
-            target: Constants.movementTarget,
-            goalDist: Double
-    ): Constants.arcadeDriveSpeeds {
-        return Constants.arcadeDriveSpeeds(
-                -1*forwardController.calculate(target.distance, goalDist),
-                turnController.calculate(target.yaw, 0.0)
+        target: Constants.movementTarget,
+        goalDist: Double
+    ): Constants.arcadeDriveSpeeds =
+        Constants.arcadeDriveSpeeds(
+            forwardController.calculate(target.distance, goalDist),
+            turnController.calculate(target.yaw, 0.0)
         )
-    }
 
     fun tankDrive(left: Double, right: Double) {
         drive.tankDrive(left, right)
     }
 
     // balance by setting speed proportional to angle.
-    fun autoBalanceCommand(): Command {
-        return run { drive.arcadeDrive(Math.sin(getGyroAngle(1) * (Math.PI / 180)) * -1, 0.0) }
-    }
+    fun autoBalanceCommand(): Command =
+        run {
+            drive.arcadeDrive(Math.sin(getGyroAngle(Constants.Axis.PITCH) * (Math.PI / 180)) * -1, 0.0)
+        }
 
-    fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command {
-        return run {
+    fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
+        run {
             arcadeDrive(Constants.arcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
         }
-                .finallyDo { stopMotor() }
-    }
+            .finallyDo { stopMotor() }
+
     /** This method will be called once per scheduler run */
     override fun periodic() {}
 
