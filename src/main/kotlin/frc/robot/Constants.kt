@@ -69,5 +69,5 @@ class Constants {
 
     data class arcadeDriveSpeeds(val fwd: Double, val rot: Double)
 
-    val firstArm: Arm = Arm(5, 5.0, 1.0, 1.0, 0.0, 0.0, 1.0, -1.0, 0.0)
+    val firstArm: Arm = Arm(5, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.5, 0.5)
 }
