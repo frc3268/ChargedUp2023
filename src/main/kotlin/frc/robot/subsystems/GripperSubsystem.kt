@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon
 import frc.robot.Constants
 
 class GripperSubsystem : SubsystemBase() {
-
     public val motorPort: Int = Constants.motorConstants.gripperPort
     public val motor: Talon = Talon(motorPort)
     public var closed: Boolean = true
