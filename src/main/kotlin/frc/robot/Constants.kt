@@ -27,11 +27,6 @@ class Constants {
         const val gripperPort = 5
     }
 
-    public object errorCodes {
-        const val frameNotFoundError = -1.0
-        const val targetsNotFoundError = -2.0
-    }
-
     // Measured in meters
     object setHeights {
         const val poleTapeLow = 1.27 // 22 inches up!fix
@@ -58,20 +53,20 @@ class Constants {
     }
 
     data class Arm(
-            val motorPort: Int,
-            val kp: Double,
-            val ki: Double,
-            val kd: Double,
-            val kiz: Double,
-            val kff: Double,
-            val kmaxoutput: Double,
-            val kminoutput: Double,
-            val armsStartRads: Double
+        val motorPort: Int,
+        val kp: Double,
+        val ki: Double,
+        val kd: Double,
+        val kiz: Double,
+        val kff: Double,
+        val kmaxoutput: Double,
+        val kminoutput: Double,
+        val armsStartRads: Double
     )
 
-    data class movementTarget(
-            val distance: Double,
-            val yaw: Double,
+    data class MovementTarget(
+        val distance: Double,
+        val yaw: Double,
     )
 
     data class arcadeDriveSpeeds(val fwd: Double, val rot: Double)

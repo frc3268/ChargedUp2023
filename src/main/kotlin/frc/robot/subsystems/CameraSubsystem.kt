@@ -45,8 +45,10 @@ class CameraSubsystem : SubsystemBase() {
         }
     }
 
+    /**
+     * Called once per scheduler run.
+     */
     override fun periodic() {
-        // This method will be called once per scheduler run
         frame = cam.getLatestResult()
         distanceLabel.setDouble(movementToTarget(Constants.setHeights.poleTapeLow).distance)
         pipelineLabel.setString(if(aprilOn) "AprilTag" else "Reflective Tape")
@@ -59,17 +61,15 @@ class CameraSubsystem : SubsystemBase() {
             cam.takeInputSnapshot()
     }
 
-    fun movementToTarget(targetHeight: Double): Constants.movementTarget {
+    fun movementToTarget(targetHeight: Double): Constants.MovementTarget? {
         if(!frame.hasTargets()) {
-            return Constants.movementTarget(
-                Constants.errorCodes.targetsNotFoundError,
-                Constants.errorCodes.targetsNotFoundError
-            )
+            return null
         }
+
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
         val dist: Double = (targetHeight - Constants.setHeights.camera)
-            / (Math.tan(pitch - Units.degreesToRadians(4.0)))
-        return Constants.movementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
+            / Math.tan(pitch - Units.degreesToRadians(4.0))
+        return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 
     fun getEstimatedPose(prevPose: Pose2d): EstimatedRobotPose? {
