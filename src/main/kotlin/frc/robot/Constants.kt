@@ -34,8 +34,8 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLow = 0.5588 // 22 inches up
-        const val camera = 0.381 // 15 inches up
+        const val poleTapeLow = 1.27 // 22 inches up!fix
+        const val camera = 1.397 // 15 inches up!fix
     }
 
     object setDistances {
@@ -76,5 +76,5 @@ class Constants {
 
     data class arcadeDriveSpeeds(val fwd: Double, val rot: Double)
 
-    public val first_Arm: Arm = Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0)
+    public val first_Arm: Arm = Arm(5, 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0)
 }

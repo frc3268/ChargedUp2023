@@ -41,7 +41,7 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         Trigger { io.firstButton.asBoolean }
-            .onTrue(Commands.runOnce(
+            .onTrue(Commands.run(
                 {
                     firstArmSubsystem.moveAmount(3.0)
                 },
@@ -61,7 +61,7 @@ class RobotContainer {
      * The throttle can be used to limit the speed of movement or rotation.
      * When the throttle is set to zero (fully down towards the minus sign printed on the joystick), all inputs to the joystick are zeroed and the robot will not move.
      * When the throttle is set to max (all the way up towards the plus sign printed on the joystick), no limits are placed on the magnitude of the input whatsoever.
-     * 
+     * did i ask
      * @author Weiju Wang
      */
     val teleopCommand: Command =
