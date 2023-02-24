@@ -41,7 +41,12 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         Trigger { io.firstButton.asBoolean }
-            .onTrue(Commands.runOnce({firstArmSubsystem.moveAmount(3.0)}, firstArmSubsystem))
+            .onTrue(Commands.runOnce(
+                {
+                    firstArmSubsystem.moveAmount(3.0)
+                },
+                firstArmSubsystem
+            ))
     }
 
     /**
@@ -51,6 +56,17 @@ class RobotContainer {
      */
     val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLow, 1.0)
 
+    /**
+     * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
+     * The throttle can be used to limit the speed of movement or rotation.
+     * When the throttle is set to zero (fully down towards the minus sign printed on the joystick), all inputs to the joystick are zeroed and the robot will not move.
+     * When the throttle is set to max (all the way up towards the plus sign printed on the joystick), no limits are placed on the magnitude of the input whatsoever.
+     * 
+     * @author Weiju Wang
+     */
     val teleopCommand: Command =
-        driveSubsystem.arcadeDriveCommand({ io.joystick.getY() }, { io.joystick.getZ() })
+        driveSubsystem.arcadeDriveCommand(
+            { io.joystick.getY() * (-1 * io.joystick.getThrottle() + 1) / 2 },
+            { io.joystick.getX() * (-1 * io.joystick.getThrottle() + 1) / 2 }
+        )
 }

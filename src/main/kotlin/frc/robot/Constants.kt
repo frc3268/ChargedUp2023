@@ -32,9 +32,10 @@ class Constants {
         const val targetsNotFoundError = -2.0
     }
 
+    // Measured in meters
     object setHeights {
-        const val poleTapeLow = 0.5588  //22 inches up
-        const val camera = 0.381   //15 inches up
+        const val poleTapeLow = 0.5588 // 22 inches up
+        const val camera = 0.381 // 15 inches up
     }
 
     object setDistances {

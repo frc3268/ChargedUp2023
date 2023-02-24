@@ -13,7 +13,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
-    val offset:Double = ArmConsts.armsStartRads
+    val offset: Double = ArmConsts.armsStartRads
 
     init {
         pidcontroller.setP(ArmConsts.kp)
@@ -33,21 +33,23 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     }
 
     fun moveAmount(radians: Double) {
-        // rotates x amount of radians, assuming 1 rotation = 2p radians
-        pidcontroller.setReference(radians , CANSparkMax.ControlType.kPosition)
+        // rotates by x radians, assuming 1 revolution = 2p radians
+        pidcontroller.setReference(radians, CANSparkMax.ControlType.kPosition)
     }
 
     fun moveToGoal(goalPos: Double) {
         // sets position to a given amount of radians, hopefully it works
         val current: Double = encoder.getPosition() * (2 * Math.PI) + offset
         val toMove: Double =
-                (if (current > goalPos) (Math.abs(current - goalPos) / (2 * Math.PI))
-                else (current - goalPos / (2 * Math.PI)))
+            if (current > goalPos)
+                (Math.abs(current - goalPos) / (2 * Math.PI))
+            else
+                (current - goalPos / (2 * Math.PI))
         pidcontroller.setReference(toMove, CANSparkMax.ControlType.kPosition)
     }
 
-    fun resetPos() : Command{
-        return runOnce{
+    fun resetPos() : Command {
+        return runOnce {
             moveToGoal(offset)
         }
     }
