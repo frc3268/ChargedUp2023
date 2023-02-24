@@ -73,7 +73,7 @@ class DriveSubsystem : SubsystemBase() {
             .addConstraint(voltageConstraint)
 
     init {
-        // inversion
+        // Matthew says this is needed but doesn't know why. Do not remove -- Weiju
         driveLeft.setInverted(true)
     }
 
