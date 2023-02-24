@@ -23,49 +23,53 @@ class CameraSubsystem : SubsystemBase() {
     // star out on reflective tape pipeline
     var aprilOn: Boolean = false
     val visiontab: ShuffleboardTab = Shuffleboard.getTab("Vision")
-    val distanceLabel  = visiontab.add("Distance to Best Target", 0.0).getEntry()
+    val distanceLabel = visiontab.add("Distance to Best Target", 0.0).getEntry()
     val pipelineLabel = visiontab.add("Pipeline", "Reflective tape").getEntry()
     var poseEstimator: PhotonPoseEstimator? = null
 
     init {
         try {
             poseEstimator =
-                    PhotonPoseEstimator(
-                            AprilTagFieldLayout(
-                                    Filesystem.getDeployDirectory().toString() +
-                                            "/2023-chargedup.json"
-                            ),
-                            PoseStrategy.MULTI_TAG_PNP,
-                            cam,
-                            Transform3d()
-                    )
+                PhotonPoseEstimator(
+                    AprilTagFieldLayout(
+                        Filesystem.getDeployDirectory().toString()
+                        + "/2023-chargedup.json"
+                    ),
+                    PoseStrategy.MULTI_TAG_PNP,
+                    cam,
+                    Transform3d()
+                )
         } catch (e: IOException) {
             DriverStation.reportError("AprilTag: Failed to Load", e.getStackTrace())
             // !add some way to lock down apriltage features after this
         }
     }
 
+    /**
+     * Called once per scheduler run.
+     */
     override fun periodic() {
-        // This method will be called once per scheduler run
         frame = cam.getLatestResult()
-        distanceLabel.setDouble( movementToTarget(Constants.setHeights.poleTapeLow).distance)
-        
-        pipelineLabel.setString((if (aprilOn) ("AprilTag") else ("Reflective Tape")))
+        distanceLabel.setDouble(movementToTarget(Constants.setHeights.poleTapeLow).distance)
+        pipelineLabel.setString(if(aprilOn) "AprilTag" else "Reflective Tape")
     }
 
-    fun takePicture(proscessed: Boolean) {
-        (if (proscessed) (cam.takeOutputSnapshot()) else (cam.takeInputSnapshot()))
+    fun takePicture(processed: Boolean) {
+        if(processed)
+            cam.takeOutputSnapshot()
+        else
+            cam.takeInputSnapshot()
     }
 
-    fun movementToTarget(targetHeight: Double): Constants.movementTarget {
-        if (!frame.hasTargets())
-                (return Constants.movementTarget(
-                        Constants.errorCodes.targetsNotFoundError,
-                        Constants.errorCodes.targetsNotFoundError
-                ))
+    fun movementToTarget(targetHeight: Double): Constants.MovementTarget? {
+        if(!frame.hasTargets()) {
+            return null
+        }
+
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (targetHeight - Constants.setHeights.camera) / (Math.tan(pitch - Units.degreesToRadians(4.0)))
-        return Constants.movementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
+        val dist: Double = (targetHeight - Constants.setHeights.camera)
+            / Math.tan(pitch - Units.degreesToRadians(4.0))
+        return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 
     fun getEstimatedPose(prevPose: Pose2d): EstimatedRobotPose? {

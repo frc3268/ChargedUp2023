@@ -5,8 +5,10 @@ import frc.robot.Constants
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
 
+/**
+ * Creates a new DriveToTargetCommand.
+ */
 class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targetHeight: Double, targetDist: Double) : CommandBase() {
-    /** Creates a new DriveToTargetCommand. */
     val camera: CameraSubsystem = camera
     val drive: DriveSubsystem = drive
     val height: Double = targetHeight
@@ -17,10 +19,14 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
         addRequirements(drive)
     }
 
-    // Called when the command is initially scheduled.
+    /**
+     * Called when the command is initially scheduled.
+     */
     override fun initialize() {}
 
-    // Called every time the scheduler runs while the command is scheduled.
+    /**
+     * Called every time the scheduler runs while the command is scheduled.
+     */
     override fun execute() {
         val range: Constants.movementTarget? = camera.movementToTarget(height)
         range?:return
@@ -35,12 +41,16 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
         )
     }
 
-    // Called once the command ends or is interrupted.
+    /**
+     * Called once the command ends or is interrupted.
+     */
     override fun end(interrupted: Boolean) {
         drive.stopMotor()
     }
 
-    // Returns true when the command should end.
+    /**
+     * Returns true when the command should end.
+     */
     override fun isFinished(): Boolean {
         return false
     }

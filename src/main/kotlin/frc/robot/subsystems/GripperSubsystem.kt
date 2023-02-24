@@ -14,9 +14,9 @@ class GripperSubsystem : SubsystemBase() {
     fun toggle() : Command {
         closed = !closed
         //may want to change settime
-        return runOnce { motor.set(
-            if(closed) 1.0 else -1.0
-        ) }.withTimeout(2.0)
+        return runOnce {
+            motor.set(if(closed) 1.0 else -1.0)
+        }.withTimeout(2.0)
     }
 
     override fun periodic() {
