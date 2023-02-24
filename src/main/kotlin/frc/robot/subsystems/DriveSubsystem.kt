@@ -38,11 +38,11 @@ class DriveSubsystem : SubsystemBase() {
 
     // PID
     // PID constants should be tuned per robot
-    val linearP: Double = 0.01
-    val linearD: Double = 0.0
+    val linearP: Double = 0.5
+    val linearD: Double = 0.5
     val forwardController: PIDController = PIDController(linearP, 0.0, linearD)
 
-    val angularP: Double = 0.001
+    val angularP: Double = 0.5
     val angularD: Double = 0.0
     val turnController = PIDController(angularP, 0.0, angularD)
 
@@ -105,7 +105,7 @@ class DriveSubsystem : SubsystemBase() {
     ): Constants.arcadeDriveSpeeds =
         Constants.arcadeDriveSpeeds(
             forwardController.calculate(target.distance, goalDist),
-            turnController.calculate(target.yaw, 0.0)
+            0.0//turnController.calculate(target.yaw, 0.0)
         )
 
     fun tankDrive(left: Double, right: Double) {

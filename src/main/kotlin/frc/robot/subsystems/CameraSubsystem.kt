@@ -67,9 +67,10 @@ class CameraSubsystem : SubsystemBase() {
         if(!frame.hasTargets()) {
             return null
         }
-
+        
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (targetHeight - Constants.setHeights.camera) / Math.tan(pitch)
+        //courtesy vheidhzhu-correct for pitch using gyro
+        val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera)) / (Math.tan(pitch + Units.degreesToRadians(0.0)) )
         return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 

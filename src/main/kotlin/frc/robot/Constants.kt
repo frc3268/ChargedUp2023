@@ -29,8 +29,8 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLow = 0.651 // 24 inches up!fix
-        const val camera = 0.66 // 26 inches up!fix
+        const val poleTapeLow = 24.0 // 24 inches up!fix
+        const val camera = 26.0 // 26 inches up!fix
     }
 
     object setDistances {
