@@ -64,7 +64,7 @@ class CameraSubsystem : SubsystemBase() {
                         Constants.errorCodes.targetsNotFoundError
                 ))
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (targetHeight - Constants.setHeights.camera) / (Math.tan(pitch) - Units.degreesToRadians(1.0))
+        val dist: Double = (targetHeight - Constants.setHeights.camera) / (Math.tan(pitch - Units.degreesToRadians(2.0)))
         return Constants.movementTarget(dist, frame.getBestTarget().getYaw())
     }
 

@@ -38,11 +38,11 @@ class DriveSubsystem : SubsystemBase() {
 
     // PID
     // PID constants should be tuned per robot
-    val linearP: Double = 0.1
+    val linearP: Double = 0.01
     val linearD: Double = 0.0
     val forwardController: PIDController = PIDController(linearP, 0.0, linearD)
 
-    val angularP: Double = 0.1
+    val angularP: Double = 0.001
     val angularD: Double = 0.0
     val turnController = PIDController(angularP, 0.0, angularD)
 
