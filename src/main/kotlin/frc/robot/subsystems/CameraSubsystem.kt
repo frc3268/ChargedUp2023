@@ -64,8 +64,8 @@ class CameraSubsystem : SubsystemBase() {
                         Constants.errorCodes.targetsNotFoundError
                 ))
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (targetHeight - Constants.setHeights.camera) / (Math.tan(pitch - Units.degreesToRadians(2.0)))
-        return Constants.movementTarget(dist, frame.getBestTarget().getYaw())
+        val dist: Double = (targetHeight - Constants.setHeights.camera) / (Math.tan(pitch - Units.degreesToRadians(4.0)))
+        return Constants.movementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 
     fun getEstimatedPose(prevPose: Pose2d): EstimatedRobotPose? {
