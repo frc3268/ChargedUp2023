@@ -50,7 +50,9 @@ class CameraSubsystem : SubsystemBase() {
      */
     override fun periodic() {
         frame = cam.getLatestResult()
-        distanceLabel.setDouble(movementToTarget(Constants.setHeights.poleTapeLow).distance)
+        val distance:Double? = movementToTarget(Constants.setHeights.poleTapeLow)?.distance
+        distance?:return
+        distanceLabel.setDouble(distance)
         pipelineLabel.setString(if(aprilOn) "AprilTag" else "Reflective Tape")
     }
 

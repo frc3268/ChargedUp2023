@@ -28,7 +28,7 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
      * Called every time the scheduler runs while the command is scheduled.
      */
     override fun execute() {
-        val range: Constants.movementTarget? = camera.movementToTarget(height)
+        val range: Constants.MovementTarget? = camera.movementToTarget(height)
         range?:return
         if(range.distance < dist){
             end(false)
