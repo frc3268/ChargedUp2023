@@ -29,7 +29,7 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
      */
     override fun execute() {
         val range: Constants.MovementTarget? = camera.movementToTarget(height)
-        range?:return
+        range ?: return;
         if(range.distance < dist){
             end(false)
         }
