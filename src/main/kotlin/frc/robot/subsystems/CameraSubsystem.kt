@@ -69,8 +69,8 @@ class CameraSubsystem : SubsystemBase() {
         }
         
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        //courtesy vheidhzhu-correct for pitch using gyro
-        val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera)) / (Math.tan(pitch + Units.degreesToRadians(0.0)) )
+        val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera))
+            / Math.tan(pitch)
         return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 
@@ -82,7 +82,7 @@ class CameraSubsystem : SubsystemBase() {
         return poseEstimator?.update()?.orElse(null)
     }
 
-    fun resetPose(pose:Pose2d) {
+    fun resetPose(pose: Pose2d) {
         poseEstimator ?: return
         poseEstimator?.setReferencePose(pose)
     }
