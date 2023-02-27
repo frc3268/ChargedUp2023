@@ -16,6 +16,7 @@ import org.photonvision.PhotonCamera
 import org.photonvision.PhotonPoseEstimator
 import org.photonvision.PhotonPoseEstimator.PoseStrategy
 import org.photonvision.targeting.PhotonPipelineResult
+import org.photonvision.PhotonUtils
 
 class CameraSubsystem : SubsystemBase() {
     val cam: PhotonCamera = PhotonCamera("CCP BALOON CAMERA")
@@ -69,7 +70,7 @@ class CameraSubsystem : SubsystemBase() {
         }
 
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (targetHeight - Constants.setHeights.camera)
+        val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera))
             / Math.tan(pitch)
         return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }

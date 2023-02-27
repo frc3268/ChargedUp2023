@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import java.util.function.DoubleSupplier
+import edu.wpi.first.wpilibj.BuiltInAccelerometer
 
 class DriveSubsystem : SubsystemBase() {
     // Controllers
@@ -38,11 +39,11 @@ class DriveSubsystem : SubsystemBase() {
 
     // PID
     // PID constants should be tuned per robot
-    val linearP: Double = 0.01
+    val linearP: Double = 0.6
     val linearD: Double = 0.0
     val forwardController: PIDController = PIDController(linearP, 0.0, linearD)
 
-    val angularP: Double = 0.001
+    val angularP: Double = 0.3
     val angularD: Double = 0.0
     val turnController = PIDController(angularP, 0.0, angularD)
 
@@ -59,6 +60,10 @@ class DriveSubsystem : SubsystemBase() {
             driveKinematics,
             10.0
         )
+    //accelerometer
+    val accelerometer:BuiltInAccelerometer = BuiltInAccelerometer()
+    var lastaccel = 0.0
+    var currentaccel = 0.0
 
     // Create config for trajectory
 
@@ -76,6 +81,8 @@ class DriveSubsystem : SubsystemBase() {
         // Matthew says this is needed but doesn't know why. Do not remove -- Weiju
         driveLeft.setInverted(true)
     }
+
+   
 
     /**
      * Method to get gyro angle for balancing
@@ -125,7 +132,10 @@ class DriveSubsystem : SubsystemBase() {
             .finallyDo { stopMotor() }
 
     /** This method will be called once per scheduler run */
-    override fun periodic() {}
+    override fun periodic() {
+        lastaccel = currentaccel
+        currentaccel = accelerometer.getX()
+    }
 
     /** This method will be called once per scheduler run during simulation */
     override fun simulationPeriodic() {}

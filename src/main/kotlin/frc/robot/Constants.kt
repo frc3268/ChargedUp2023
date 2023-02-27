@@ -29,8 +29,8 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLow = 0.651 // 24 inches up!fix
-        const val camera = 0.66 // 26 inches up!fix
+        const val poleTapeLow = 18.0 // 24 inches up!fix
+        const val camera = 26.0 // 26 inches up!fix
     }
 
     object setDistances {
@@ -50,6 +50,7 @@ class Constants {
         //ramsete config, can be kept as is
         const val kRamseteB = 2 
         const val ramseteZeta = 0.7
+        const val jerkDelta = 0.5
     }
 
     data class Arm(
