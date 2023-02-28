@@ -71,7 +71,7 @@ class CameraSubsystem : SubsystemBase() {
         
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
         val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera))
-            / Math.tan(pitch)
+            / Math.tan(pitch - 10)
         return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
     }
 
