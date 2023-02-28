@@ -32,14 +32,16 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         // This method will be called once per scheduler run during simulation
     }
 
-    fun moveAmount(radians: Double) {
-        // rotates by x radians, assuming 1 revolution = 2p radians
-        pidcontroller.setReference(radians, CANSparkMax.ControlType.kPosition)
+    /**
+     * Rotates the motor by `radians` radians.
+     */
+    fun rotateRadians(radians: Double) {
+        pidcontroller.setReference(Units.radiansToDegrees(radians), CANSparkMax.ControlType.kPosition)
     }
 
     fun moveToGoal(goalPos: Double) {
         // sets position to a given amount of radians, hopefully it works
-        val current: Double = encoder.getPosition() * (2 * Math.PI) + offset
+        val current: Double = Units.degreesToRadians(encoder.getPosition()) + offset
         val toMove: Double =
             if (current > goalPos)
                 (Math.abs(current - goalPos) / (2 * Math.PI))

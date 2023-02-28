@@ -43,7 +43,7 @@ class RobotContainer {
         Trigger { io.firstButton.asBoolean }
             .onTrue(Commands.run(
                 {
-                    firstArmSubsystem.moveAmount(3.0)
+                    firstArmSubsystem.rotateRadians(3.0)
                 },
                 firstArmSubsystem
             ))
