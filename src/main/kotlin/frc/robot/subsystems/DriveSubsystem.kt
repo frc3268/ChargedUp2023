@@ -112,7 +112,7 @@ class DriveSubsystem : SubsystemBase() {
     ): Constants.arcadeDriveSpeeds =
         Constants.arcadeDriveSpeeds(
             forwardController.calculate(target.distance, goalDist),
-            0.0//turnController.calculate(target.yaw, 0.0)
+            turnController.calculate(target.yaw, 0.0)
         )
 
     fun tankDrive(left: Double, right: Double) {
