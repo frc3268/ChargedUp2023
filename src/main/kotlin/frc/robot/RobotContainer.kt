@@ -54,7 +54,7 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLow, 1.0)
+    val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLowI, 1.0)
 
     /**
      * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.

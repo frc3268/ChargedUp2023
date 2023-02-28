@@ -29,12 +29,12 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLow = 18.0 // 24 inches up!fix
-        const val camera = 26.0 // 26 inches up!fix
+        const val poleTapeLowI = 18.0 // 24 inches up!fix
+        const val cameraI = 26.0 // 26 inches up!fix
     }
 
     object setDistances {
-        const val goalDistLow = 0.0 //!fix
+        const val goalDistLowI = 0.0 //!fix
     }
 
     object driveConsts {
@@ -66,11 +66,11 @@ class Constants {
     )
 
     data class MovementTarget(
-        val distance: Double,
+        val distanceM: Double,
         val yaw: Double,
     )
 
-    data class arcadeDriveSpeeds(val fwd: Double, val rot: Double)
+    data class ArcadeDriveSpeeds(val fwd: Double, val rot: Double)
 
     public val first_Arm: Arm = Arm(5, 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0)
 }

@@ -87,7 +87,7 @@ class DriveSubsystem : SubsystemBase() {
     /**
      * Method to get gyro angle for balancing
      * @param axis the axis to get from gyro, pitch is 1, roll is 2, and yaw is 3
-     * @return gyro reading on the requested axis
+     * @return gyro reading on the requested axis (what unit? -- Weiju)
      */
     fun getGyroAngle(axis: Constants.Axis): Double {
         when(axis){
@@ -102,17 +102,17 @@ class DriveSubsystem : SubsystemBase() {
         drive.stopMotor()
     }
 
-    public fun arcadeDrive(speeds: Constants.arcadeDriveSpeeds) {
+    public fun arcadeDrive(speeds: Constants.ArcadeDriveSpeeds) {
         drive.arcadeDrive(speeds.fwd, speeds.rot)
     }
 
     public fun pidSpeedsCalculate(
         target: Constants.MovementTarget,
-        goalDist: Double
-    ): Constants.arcadeDriveSpeeds =
-        Constants.arcadeDriveSpeeds(
-            forwardController.calculate(target.distance, goalDist),
-            0.0//turnController.calculate(target.yaw, 0.0)
+        goalDistM: Double
+    ): Constants.ArcadeDriveSpeeds =
+        Constants.ArcadeDriveSpeeds(
+            forwardController.calculate(target.distanceM, goalDistM),
+            turnController.calculate(target.yawD, 0.0)
         )
 
     fun tankDrive(left: Double, right: Double) {
@@ -122,12 +122,12 @@ class DriveSubsystem : SubsystemBase() {
     // balance by setting speed proportional to angle.
     fun autoBalanceCommand(): Command =
         run {
-            drive.arcadeDrive(Math.sin(getGyroAngle(Constants.Axis.PITCH) * (Math.PI / 180)) * -1, 0.0)
+            drive.arcadeDrive(Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))) * -1, 0.0)
         }
 
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {
-            arcadeDrive(Constants.arcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
+            arcadeDrive(Constants.ArcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
         }
             .finallyDo { stopMotor() }
 

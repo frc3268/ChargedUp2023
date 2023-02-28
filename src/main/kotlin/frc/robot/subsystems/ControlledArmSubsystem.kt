@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.Constants.Arm
 import frc.robot.Constants
+import edu.wpi.first.math.util.Units
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
-    val offset: Double = ArmConsts.armsStartRads
+    val offsetR: Double = ArmConsts.armsStartRads
 
     init {
         pidcontroller.setP(ArmConsts.kp)
@@ -33,26 +34,26 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     }
 
     /**
-     * Rotates the motor by `radians` radians.
+     * Rotates the motor by the given number of radians.
      */
-    fun rotateRadians(radians: Double) {
-        pidcontroller.setReference(Units.radiansToDegrees(radians), CANSparkMax.ControlType.kPosition)
+    fun rotateRadians(radiansR: Double) {
+        pidcontroller.setReference(Units.radiansToDegrees(radiansR), CANSparkMax.ControlType.kPosition)
     }
 
-    fun moveToGoal(goalPos: Double) {
-        // sets position to a given amount of radians, hopefully it works
-        val current: Double = Units.degreesToRadians(encoder.getPosition()) + offset
-        val toMove: Double =
-            if (current > goalPos)
-                (Math.abs(current - goalPos) / (2 * Math.PI))
-            else
-                (current - goalPos / (2 * Math.PI))
-        pidcontroller.setReference(toMove, CANSparkMax.ControlType.kPosition)
+    /**
+     * Sets the motor to a given number of radians.
+     */
+    fun moveToGoal(targetPosR: Double) {
+        val currPosR: Double = Units.degreesToRadians(encoder.getPosition()) + offsetR
+        pidcontroller.setReference(
+            Units.radiansToDegrees(currPosR - targetPosR),
+            CANSparkMax.ControlType.kPosition
+        )
     }
 
     fun resetPos() : Command {
         return runOnce {
-            moveToGoal(offset)
+            moveToGoal(offsetR)
         }
     }
 }

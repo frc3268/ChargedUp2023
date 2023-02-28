@@ -8,11 +8,11 @@ import frc.robot.subsystems.DriveSubsystem
 /**
  * Creates a new DriveToTargetCommand.
  */
-class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targetHeight: Double, targetDist: Double) : CommandBase() {
+class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targetHeightM: Double, targetDistM: Double) : CommandBase() {
     val camera: CameraSubsystem = camera
     val drive: DriveSubsystem = drive
-    val height: Double = targetHeight
-    val dist: Double = targetDist
+    val heightM: Double = targetHeightM
+    val distM: Double = targetDistM
 
     init {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -28,15 +28,17 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
      * Called every time the scheduler runs while the command is scheduled.
      */
     override fun execute() {
-        val range: Constants.MovementTarget? = camera.movementToTarget(height)
+        val range: Constants.MovementTarget? = camera.movementToTarget(heightM)
         range ?: return;
-        if(range.distance < dist){
+
+        if(range.distanceM < distM) {
             end(false)
         }
+
         drive.arcadeDrive(
             drive.pidSpeedsCalculate(
                 range,
-                dist
+                distM
             )
         )
     }
