@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.DriveSubsystem
 import frc.robot.Constants
 
-class DriveTillCollideCommand (drive:DriveSubsystem): CommandBase() {
+class DriveTillCollideCommand(drive: DriveSubsystem): CommandBase() {
     /**
      * Creates a new DriveTillCollideCommand.
      */
-    val drive:DriveSubsystem = drive
+    val drive: DriveSubsystem = drive
     init {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(drive)
@@ -22,7 +22,7 @@ class DriveTillCollideCommand (drive:DriveSubsystem): CommandBase() {
         if(Math.abs(drive.lastaccel - drive.currentaccel) > Constants.driveConsts.jerkDelta){
             end(false)
         }
-        drive.arcadeDrive(Constants.arcadeDriveSpeeds(0.4, 0.0))
+        drive.arcadeDrive(Constants.ArcadeDriveSpeeds(0.4, 0.0))
     }
 
     // Called once the command ends or is interrupted.
