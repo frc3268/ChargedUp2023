@@ -68,7 +68,7 @@ class CameraSubsystem : SubsystemBase() {
         if(!frame.hasTargets()) {
             return null
         }
-
+        
         val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
         val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera))
             / Math.tan(pitch)
@@ -83,7 +83,7 @@ class CameraSubsystem : SubsystemBase() {
         return poseEstimator?.update()?.orElse(null)
     }
 
-    fun resetPose(pose:Pose2d) {
+    fun resetPose(pose: Pose2d) {
         poseEstimator ?: return
         poseEstimator?.setReferencePose(pose)
     }
