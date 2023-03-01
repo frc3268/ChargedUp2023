@@ -20,9 +20,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets
 import edu.wpi.first.math.util.Units
 
 class DriveSubsystem : SubsystemBase() {
-    //smart dashboard
-    val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
-    var highlowwidget = operatortab.add("Mode", "None").withWidget(BuiltInWidgets.kCommand)
     // Controllers
     private val driveLeftFront: CANSparkMax =
         CANSparkMax(Constants.motorConstants.driveLeftFrontID, MotorType.kBrushless)
@@ -141,5 +138,5 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     /** This method will be called once per scheduler run during simulation */
-    override fun simulationPeriodic() {}DoubleSupplierspeeds
+    override fun simulationPeriodic() {}
 }

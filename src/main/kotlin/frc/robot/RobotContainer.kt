@@ -11,6 +11,10 @@ import frc.robot.subsystems.ControlledArmSubsystem
 import frc.robot.commands.DriveToTargetCommand
 import frc.robot.Constants
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the [Robot]
@@ -23,6 +27,10 @@ class RobotContainer {
     public val cameraSubsystem = CameraSubsystem()
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val io = IO()
+
+    //smart dashboard
+    val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
+    var highlowwidget = operatortab.add("Mode", "None").withWidget(BuiltInWidgets.kCommand)
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {

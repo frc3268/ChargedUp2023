@@ -29,12 +29,16 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLowI: Double = 18.0 // 24 inches up!fix
-        const val cameraI: Double = 26.0 // 26 inches up!fix
+        const val poleTapeLowI: Double = 23.0 // 23 inches up
+        const val cameraI: Double = 13.0 // 13 inches up
+        const val poleTapeHighI:Double = 46.0
     }
 
     object setDistances {
-        const val goalDistLowI: Double = 0.0 //!fix
+        const val goalDistLowI: Double = 14.0
+        const val goaldistFloorI:Double = 24.0
+        const val goaldistHighI:Double = 0.0
+        const val pickupDistI:Double = 24.0
     }
 
     object driveConsts {
