@@ -30,7 +30,7 @@ class RobotContainer {
 
     //smart dashboard
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
-    var highlowwidget = operatortab.add("Mode", "None").withWidget(BuiltInWidgets.kCommand)
+    var highlowwidget = operatortab.add("Mode", "None").withWidget(BuiltInWidgets.kComboBoxChooser).withProperties(mapOf())
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
