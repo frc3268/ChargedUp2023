@@ -23,9 +23,9 @@ class CameraSubsystem : SubsystemBase() {
     var frame: PhotonPipelineResult = PhotonPipelineResult()
     // star out on reflective tape pipeline
     var aprilOn: Boolean = false
-    val visiontab: ShuffleboardTab = Shuffleboard.getTab("Vision")
-    val distanceLabel = visiontab.add("Distance to Best Target", 0.0).getEntry()
-    val pipelineLabel = visiontab.add("Pipeline", "Reflective tape").getEntry()
+    val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
+    val distanceLabel = operatortab.add("Distance to Best Target", 0.0).getEntry()
+    val pipelineLabel = operatortab.add("Pipeline", "Reflective tape").getEntry()
     var poseEstimator: PhotonPoseEstimator? = null
 
     init {

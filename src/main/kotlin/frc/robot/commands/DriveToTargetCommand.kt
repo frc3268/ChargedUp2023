@@ -13,7 +13,6 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     val drive: DriveSubsystem = drive
     val height: Double = targetHeight
     val dist: Double = targetDist
-
     init {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(drive)
@@ -22,7 +21,9 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     /**
      * Called when the command is initially scheduled.
      */
-    override fun initialize() {}
+    override fun initialize() {
+
+    }
 
     /**
      * Called every time the scheduler runs while the command is scheduled.
