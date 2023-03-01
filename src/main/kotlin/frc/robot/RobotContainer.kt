@@ -12,7 +12,7 @@ import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
 import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
-import frc.robot.commands.commandgroups.DropCargoMedCommand
+import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
 import frc.robot.Constants
 
@@ -37,7 +37,7 @@ class RobotContainer {
     private val triggerCommandsMap = mapOf(
         Constants.actionNames.pickup to PickUpCargoCommand(gripperSubsystem, armSubsystem),
         Constants.actionNames.floorDropoff to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
-        Constants.actionNames.lowDropoff to DropCargoMedCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+        Constants.actionNames.lowDropoff to DropCargoLowCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
         Constants.actionNames.highDropoff to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem)
     )
 

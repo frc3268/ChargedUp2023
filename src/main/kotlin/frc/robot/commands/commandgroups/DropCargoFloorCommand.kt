@@ -2,7 +2,7 @@ package frc.robot.commands.commandgroups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import edu.wpi.first.math.util.Units
-import frc.robot.commands.ExtendArmCommand
+import frc.robot.commands.FloorArmCommand
 import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.OpenGripperCommand
 import frc.robot.commands.RetractArmCommand
@@ -27,7 +27,7 @@ class DropCargoFloorCommand(gripper: GripperSubsystem, arm: ControlledArmSubsyst
         addCommands(
             DriveToTargetCommand(cam, drive, Units.inchesToMeters(Constants.setHeights.poleTapeLowI), Units.inchesToMeters(Constants.setDistances.goaldistFloorI)),
             CloseGripperCommand(gripper),
-            ExtendArmCommand(arm, Constants.armPositions.loweredD),
+            FloorArmCommand(arm),
             OpenGripperCommand(gripper),
             RetractArmCommand(arm)
         )

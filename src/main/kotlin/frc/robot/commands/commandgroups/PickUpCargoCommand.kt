@@ -2,9 +2,10 @@ package frc.robot.commands.commandgroups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.commands.OpenGripperCommand
-import frc.robot.commands.ExtendArmCommand
+import frc.robot.commands.FloorArmCommand
 import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.RetractArmCommand
+import frc.robot.commands.PickupArmCommand
 import frc.robot.subsystems.GripperSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
 import frc.robot.Constants
@@ -12,7 +13,7 @@ import frc.robot.Constants
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-class PickUpCargoCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem) : SequentialCommandGroup() {
+class PickUpCargoCommand(gripper: GripperSubsystem, arm: ControlledArmSubsystem) : SequentialCommandGroup() {
     /**
      * Creates a new PickUpCargoCommand.
      */
@@ -21,10 +22,9 @@ class PickUpCargoCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem) :
         // addCommands(FooCommand(), BarCommand())
         addCommands(
             OpenGripperCommand(gripper),
-            ExtendArmCommand(arm, Constants.armPositions.partlyextendedD),
+            PickupArmCommand(arm),
             CloseGripperCommand(gripper),
             RetractArmCommand(arm)
-
         )
     }
 }

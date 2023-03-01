@@ -2,7 +2,9 @@ package frc.robot.commands.commandgroups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import edu.wpi.first.math.util.Units
-import frc.robot.commands.ExtendArmCommand
+import frc.robot.commands.FloorArmCommand
+import frc.robot.commands.LowerArmCommand
+import frc.robot.commands.HighArmCommand
 import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.OpenGripperCommand
 import frc.robot.commands.RetractArmCommand
@@ -17,9 +19,9 @@ import frc.robot.Constants
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-class DropCargoMedCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem, cam:CameraSubsystem, drive:DriveSubsystem)  : SequentialCommandGroup(){
+class DropCargoLowCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem, cam:CameraSubsystem, drive:DriveSubsystem)  : SequentialCommandGroup(){
     /**
-     * Creates a new DropCargoMedCommand.
+     * Creates a new DropCargoLowCommand.
      */
     init {
         // Add your commands in the addCommands() call, e.g.
@@ -27,7 +29,7 @@ class DropCargoMedCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem, 
         addCommands(
             DriveToTargetCommand(cam, drive, Units.inchesToMeters(Constants.setHeights.poleTapeLowI), Units.inchesToMeters(Constants.setDistances.goalDistLowI)),
             CloseGripperCommand(gripper),
-            ExtendArmCommand(arm, Constants.armPositions.partlyextendedD),
+            LowerArmCommand(arm),
             OpenGripperCommand(gripper),
             RetractArmCommand(arm)
         )

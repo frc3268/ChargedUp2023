@@ -5,12 +5,11 @@ import frc.robot.subsystems.ControlledArmSubsystem
 import edu.wpi.first.math.util.Units
 import frc.robot.Constants
 
-class ExtendArmCommand (arm: ControlledArmSubsystem, degreesD: Double): CommandBase() {
+class FloorArmCommand (arm: ControlledArmSubsystem): CommandBase() {
     val arm: ControlledArmSubsystem = arm
-    val degreesD: Double = degreesD
 
     /**
-     * Creates a new ExtendArmCommand.
+     * Creates a new FloorArmCommand.
      */
     init {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +20,7 @@ class ExtendArmCommand (arm: ControlledArmSubsystem, degreesD: Double): CommandB
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        arm.moveToGoal(Units.degreesToRadians(degreesD))
+        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.higherD))
     }
 
     // Called once the command ends or is interrupted.
