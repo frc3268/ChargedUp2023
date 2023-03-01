@@ -12,7 +12,7 @@ import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
 import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
-import frc.robot.commands.commandgroups.DropCargoMedCommand
+import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
 import frc.robot.Constants
 
@@ -34,10 +34,12 @@ class RobotContainer {
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
-    private val triggerCommandsMap = mapOf("cargopick" to PickUpCargoCommand(gripperSubsystem, armSubsystem),
-    "floorgoalscore" to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
-    "lowgoalscore" to DropCargoMedCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
-    "highgoalscore" to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem))
+    private val triggerCommandsMap = mapOf(
+        Constants.actionNames.pickup to PickUpCargoCommand(gripperSubsystem, armSubsystem),
+        Constants.actionNames.floorDropoff to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+        Constants.actionNames.lowDropoff to DropCargoLowCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+        Constants.actionNames.highDropoff to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem)
+    )
 
     //smart dashboard
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")

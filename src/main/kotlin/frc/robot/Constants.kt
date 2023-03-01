@@ -61,9 +61,15 @@ class Constants {
         const val retractedD: Double = 0.0
         const val higherD: Double = 180.0
         const val pickupD: Double = 225.0
-        const val loweredD: Double = 270.0
-        const val extendedD: Double = 180.0
-        const val partlyextendedD:Double = 225.0
+        const val loweredD: Double = 225.0
+        const val floorD: Double = 180.0
+    }
+
+    object actionNames {
+        const val pickup: String = "cargopickup"
+        const val floorDropoff: String = "floorgoalscore"
+        const val lowDropoff: String = "lowgoalscore"
+        const val highDropoff: String = "highgoalscore"
     }
 
     data class Arm(

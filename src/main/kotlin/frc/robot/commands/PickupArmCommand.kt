@@ -5,7 +5,7 @@ import frc.robot.subsystems.ControlledArmSubsystem
 import edu.wpi.first.math.util.Units
 import frc.robot.Constants
 
-class HighArmCommand (arm: ControlledArmSubsystem): CommandBase() {
+class PickupArmCommand (arm: ControlledArmSubsystem): CommandBase() {
     val arm: ControlledArmSubsystem = arm
     
     init {
