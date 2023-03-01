@@ -61,12 +61,10 @@ class DriveSubsystem : SubsystemBase() {
             driveKinematics,
             10.0
         )
-    //accelerometer
-    val accelerometer:BuiltInAccelerometer = BuiltInAccelerometer()
-    var lastaccel = 0.0
-    var currentaccel = 0.0
 
-    // Create config for trajectory
+    val accelerometer: BuiltInAccelerometer = BuiltInAccelerometer()
+    var lastaccel: Double = 0.0
+    var currentaccel: Double = 0.0
 
     var trajectoryConfig: TrajectoryConfig =
         TrajectoryConfig(
@@ -82,8 +80,6 @@ class DriveSubsystem : SubsystemBase() {
         // Matthew says this is needed but doesn't know why. Do not remove -- Weiju
         driveLeft.setInverted(true)
     }
-
-   
 
     /**
      * Method to get gyro angle for balancing
@@ -123,7 +119,7 @@ class DriveSubsystem : SubsystemBase() {
     // balance by setting speed proportional to angle.
     fun autoBalanceCommand(): Command =
         run {
-            drive.arcadeDrive(Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))) * -1, 0.0)
+            drive.arcadeDrive(-1 * Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))), 0.0)
         }
 
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =

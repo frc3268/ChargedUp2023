@@ -29,28 +29,34 @@ class Constants {
 
     // Measured in meters
     object setHeights {
-        const val poleTapeLowI = 18.0 // 24 inches up!fix
-        const val cameraI = 26.0 // 26 inches up!fix
+        const val poleTapeLowI: Double = 18.0 // 24 inches up!fix
+        const val cameraI: Double = 26.0 // 26 inches up!fix
     }
 
     object setDistances {
-        const val goalDistLowI = 0.0 //!fix
+        const val goalDistLowI: Double = 0.0 //!fix
     }
 
     object driveConsts {
         //!system identification to find these constants
-        const val ksVolts = 0.0
-        const val kvVoltSecondsPerMeter = 0.0
-        const val kaVoltSecondsSquaredPerMeter = 0.0
-        const val kPDriveVel = 0.0
-        const val kMaxSpeedMetersPerSecond = 3.0
-        const val kMaxAccelerationMetersPerSecondSquared = 1.0
+        const val ksVolts: Double = 0.0
+        const val kvVoltSecondsPerMeter: Double = 0.0
+        const val kaVoltSecondsSquaredPerMeter: Double = 0.0
+        const val kPDriveVel: Double = 0.0
+        const val kMaxSpeedMetersPerSecond: Double = 3.0
+        const val kMaxAccelerationMetersPerSecondSquared: Double = 1.0
         //distance between wheels
-        const val kTrackwidthMeters = 0.0
+        const val kTrackwidthMeters: Double = 0.0
         //ramsete config, can be kept as is
-        const val kRamseteB = 2 
-        const val ramseteZeta = 0.7
-        const val jerkDelta = 0.5
+        const val kRamseteB: Int = 2 
+        const val ramseteZeta: Double = 0.7
+        const val jerkDelta: Double = 0.5
+    }
+
+    object armPositions {
+        const val retractedD: Double = 0.0
+        const val loweredD: Double = 270.0
+        const val extendedD: Double = 315.0
     }
 
     data class Arm(

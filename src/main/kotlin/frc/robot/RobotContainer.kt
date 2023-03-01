@@ -21,7 +21,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
-    private val firstArmSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
+    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val io = IO()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -43,9 +43,10 @@ class RobotContainer {
         Trigger { io.firstButton.asBoolean }
             .onTrue(Commands.run(
                 {
-                    firstArmSubsystem.rotateRadians(3.0)
+                    // Probably a placeholder -- Weiju
+                    armSubsystem.rotateRadians(3.0)
                 },
-                firstArmSubsystem
+                armSubsystem
             ))
     }
 
