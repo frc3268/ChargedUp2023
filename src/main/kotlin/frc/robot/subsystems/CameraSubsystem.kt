@@ -51,7 +51,7 @@ class CameraSubsystem : SubsystemBase() {
      */
     override fun periodic() {
         frame = cam.getLatestResult()
-        val distance: Double? = movementToTarget(Constants.setHeights.poleTapeLow)?.distance
+        val distance: Double? = movementToTarget(Constants.setHeights.poleTapeLowI)?.distanceM
         distance ?: return
         distanceLabel.setDouble(distance)
         pipelineLabel.setString(if(aprilOn) "AprilTag" else "Reflective Tape")
@@ -64,15 +64,17 @@ class CameraSubsystem : SubsystemBase() {
             cam.takeInputSnapshot()
     }
 
-    fun movementToTarget(targetHeight: Double): Constants.MovementTarget? {
+    fun movementToTarget(targetHeightI: Double): Constants.MovementTarget? {
         if(!frame.hasTargets()) {
             return null
         }
         
-        val pitch: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
-        val dist: Double = (Units.inchesToMeters(targetHeight) - Units.inchesToMeters(Constants.setHeights.camera))
-            / Math.tan(pitch - Units.degreesToRadians(10.0))
-        return Constants.MovementTarget(Math.abs(dist), frame.getBestTarget().getYaw())
+        val pitchR: Double = Units.degreesToRadians(frame.getBestTarget().getPitch())
+        val distM: Double = Math.abs(
+            (Units.inchesToMeters(targetHeightI) - Units.inchesToMeters(Constants.setHeights.cameraI))
+            / Math.tan(pitchR)
+        )
+        return Constants.MovementTarget(distM, frame.getBestTarget().getYaw())
     }
 
     fun getEstimatedPose(prevPose: Pose2d): EstimatedRobotPose? {

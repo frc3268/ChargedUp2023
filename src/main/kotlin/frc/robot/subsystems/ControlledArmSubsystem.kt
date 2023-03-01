@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.Constants.Arm
 import frc.robot.Constants
+import edu.wpi.first.math.util.Units
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
-    val offset: Double = ArmConsts.armsStartRads
+    val offsetR: Double = ArmConsts.armsStartRads
 
     init {
         pidcontroller.setP(ArmConsts.kp)
@@ -32,25 +33,27 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         // This method will be called once per scheduler run during simulation
     }
 
-    fun moveAmount(radians: Double) {
-        // rotates by x radians, assuming 1 revolution = 2p radians
-        pidcontroller.setReference(radians, CANSparkMax.ControlType.kPosition)
+    /**
+     * Rotates the motor by the given number of radians.
+     */
+    fun rotateRadians(radiansR: Double) {
+        pidcontroller.setReference(Units.radiansToDegrees(radiansR), CANSparkMax.ControlType.kPosition)
     }
 
-    fun moveToGoal(goalPos: Double) {
-        // sets position to a given amount of radians, hopefully it works
-        val current: Double = encoder.getPosition() * (2 * Math.PI) + offset
-        val toMove: Double =
-            if (current > goalPos)
-                (Math.abs(current - goalPos) / (2 * Math.PI))
-            else
-                (current - goalPos / (2 * Math.PI))
-        pidcontroller.setReference(toMove, CANSparkMax.ControlType.kPosition)
+    /**
+     * Sets the motor to a given number of radians.
+     */
+    fun moveToGoal(targetPosR: Double) {
+        val currPosR: Double = Units.degreesToRadians(encoder.getPosition()) + offsetR
+        pidcontroller.setReference(
+            Units.radiansToDegrees(currPosR - targetPosR),
+            CANSparkMax.ControlType.kPosition
+        )
     }
 
     fun resetPos() : Command {
         return runOnce {
-            moveToGoal(offset)
+            moveToGoal(offsetR)
         }
     }
 }

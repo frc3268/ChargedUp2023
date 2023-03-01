@@ -10,12 +10,22 @@ class GripperSubsystem : SubsystemBase() {
     public val motor: Talon = Talon(motorPort)
     public var closed: Boolean = true
 
-    fun toggle() : Command {
-        closed = !closed
-        //may want to change settime
+    fun open(): Command {
+        closed = false
         return runOnce {
-            motor.set(if(closed) 1.0 else -1.0)
+            motor.set(-1.0)
         }.withTimeout(2.0)
+    }
+
+    fun close(): Command {
+        closed = true
+        return runOnce {
+            motor.set(1.0)
+        }.withTimeout(2.0)
+    }
+
+    fun toggle(): Command {
+        return if(closed) open() else close()
     }
 
     override fun periodic() {
