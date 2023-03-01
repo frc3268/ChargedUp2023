@@ -22,7 +22,9 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
     /**
      * Called when the command is initially scheduled.
      */
-    override fun initialize() {}
+    override fun initialize() {
+
+    }
 
     /**
      * Called every time the scheduler runs while the command is scheduled.
@@ -31,15 +33,20 @@ class DriveToTargetCommand(camera: CameraSubsystem, drive: DriveSubsystem, targe
         val range: Constants.MovementTarget? = camera.movementToTarget(heightM)
         range ?: return;
 
+        
         if(range.distanceM < distM) {
             end(false)
         }
 
+        val speeds:Constants.ArcadeDriveSpeeds = drive.pidSpeedsCalculate(
+            range,
+            distM
+        )
+        if (speeds.fwd < 0.1){
+            end(false)
+        }
         drive.arcadeDrive(
-            drive.pidSpeedsCalculate(
-                range,
-                distM
-            )
+            speeds
         )
     }
 

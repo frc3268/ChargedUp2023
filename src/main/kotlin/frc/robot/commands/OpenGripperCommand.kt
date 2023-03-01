@@ -15,7 +15,10 @@ class OpenGripperCommand(gripper: GripperSubsystem): CommandBase() {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        gripper.open()
+        if(gripper.closed){
+            gripper.open()
+            end(false)
+        }
     }
 
     // Called once the command ends or is interrupted.

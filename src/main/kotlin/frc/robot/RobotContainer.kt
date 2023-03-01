@@ -10,10 +10,16 @@ import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
 import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
-import frc.robot.commands.ExtendArmCommand
-import frc.robot.commands.LowerArmCommand
-import frc.robot.commands.RetractArmCommand
+import frc.robot.commands.commandgroups.PickUpCargoCommand
+import frc.robot.commands.commandgroups.DropCargoFloorCommand
+import frc.robot.commands.commandgroups.DropCargoMedCommand
+import frc.robot.commands.commandgroups.DropCargoHighCommand
 import frc.robot.Constants
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,10 +34,23 @@ class RobotContainer {
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
+    private val triggerCommandsMap = mapOf("cargopick" to PickUpCargoCommand(gripperSubsystem, armSubsystem),
+    "floorgoalscore" to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+    "lowgoalscore" to DropCargoMedCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+    "highgoalscore" to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem))
+
+    //smart dashboard
+    val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
+    var highlowchooser = SendableChooser<String>()
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
+        highlowchooser.setDefaultOption("Pick Up Cargo", "cargopick")
+        highlowchooser.addOption("Score Floor", "floorgoalscore")
+        highlowchooser.addOption("Score Low Goal", "lowgoalscore")
+        highlowchooser.addOption("Score High Goal", "highgoalscore")
         configureBindings()
     }
 
@@ -46,7 +65,7 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         Trigger { io.firstButton.asBoolean }
-            //.onTrue(triggerCommand)
+            .onTrue(triggerCommandsMap[highlowchooser.getSelected()])
     }
 
     /**
