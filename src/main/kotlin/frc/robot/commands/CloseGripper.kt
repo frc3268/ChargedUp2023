@@ -11,6 +11,7 @@ class CloseGripper(gripper: GripperSubsystem): CommandBase() {
      */
     init {
         // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(gripper)
     }
 
     // Called when the command is initially scheduled.
@@ -18,7 +19,10 @@ class CloseGripper(gripper: GripperSubsystem): CommandBase() {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        gripper.close()
+        if(!gripper.closed){
+            gripper.close()
+            end(false)
+        }
     }
 
     // Called once the command ends or is interrupted.

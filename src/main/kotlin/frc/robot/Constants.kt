@@ -37,7 +37,7 @@ class Constants {
     object setDistances {
         const val goalDistLowI: Double = 14.0
         const val goaldistFloorI:Double = 24.0
-        const val goaldistHighI:Double = 0.0
+        const val goaldistHighI:Double = 12.0
         const val pickupDistI:Double = 24.0
     }
 
@@ -60,7 +60,8 @@ class Constants {
     object armPositions {
         const val retractedD: Double = 0.0
         const val loweredD: Double = 270.0
-        const val extendedD: Double = 315.0
+        const val extendedD: Double = 180.0
+        const val partlyextendedD:Double = 225.0
     }
 
     data class Arm(
