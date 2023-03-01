@@ -1,9 +1,9 @@
 package frc.robot.commands.commandgroups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
-import frc.robot.commands.OpenGripper
+import frc.robot.commands.OpenGripperCommand
 import frc.robot.commands.ExtendArmCommand
-import frc.robot.commands.CloseGripper
+import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.RetractArmCommand
 import frc.robot.subsystems.GripperSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
@@ -20,9 +20,9 @@ class PickUpCargoCommand(gripper:GripperSubsystem, arm:ControlledArmSubsystem) :
         // Add your commands in the addCommands() call, e.g.
         // addCommands(FooCommand(), BarCommand())
         addCommands(
-            OpenGripper(gripper),
+            OpenGripperCommand(gripper),
             ExtendArmCommand(arm, Constants.armPositions.partlyextendedD),
-            CloseGripper(gripper),
+            CloseGripperCommand(gripper),
             RetractArmCommand(arm)
 
         )

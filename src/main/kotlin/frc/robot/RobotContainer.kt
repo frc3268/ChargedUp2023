@@ -34,10 +34,12 @@ class RobotContainer {
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
-    private val triggerCommandsMap = mapOf("cargopick" to PickUpCargoCommand(gripperSubsystem, armSubsystem),
-    "floorgoalscore" to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
-    "lowgoalscore" to DropCargoMedCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
-    "highgoalscore" to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem))
+    private val triggerCommandsMap = mapOf(
+        Constants.actionNames.pickup to PickUpCargoCommand(gripperSubsystem, armSubsystem),
+        Constants.actionNames.floorDropoff to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+        Constants.actionNames.lowDropoff to DropCargoMedCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
+        Constants.actionNames.highDropoff to DropCargoHighCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem)
+    )
 
     //smart dashboard
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
@@ -47,10 +49,10 @@ class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
-        highlowchooser.setDefaultOption("Pick Up Cargo", "cargopick")
-        highlowchooser.addOption("Score Floor", "floorgoalscore")
-        highlowchooser.addOption("Score Low Goal", "lowgoalscore")
-        highlowchooser.addOption("Score High Goal", "highgoalscore")
+        highlowchooser.setDefaultOption("Pick Up Cargo", Constants.actionNames.pickup)
+        highlowchooser.addOption("Score Floor", Constants.actionNames.floorDropoff)
+        highlowchooser.addOption("Score Low Goal", Constants.actionNames.lowDropoff)
+        highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
         configureBindings()
     }
 

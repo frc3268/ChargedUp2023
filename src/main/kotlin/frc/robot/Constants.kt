@@ -66,6 +66,13 @@ class Constants {
         const val partlyextendedD:Double = 225.0
     }
 
+    object actionNames {
+        const val pickup: String = "cargopickup"
+        const val floorDropoff: String = "floorgoalscore"
+        const val lowDropoff: String = "lowgoalscore"
+        const val highDropoff: String = "highgoalscore"
+    }
+
     data class Arm(
         val motorPort: Int,
         val kp: Double,
