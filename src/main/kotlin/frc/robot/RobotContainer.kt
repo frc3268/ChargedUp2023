@@ -10,6 +10,7 @@ import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
 import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
+import frc.robot.commands.PickupArmCommand
 import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
 import frc.robot.commands.commandgroups.DropCargoLowCommand
@@ -31,7 +32,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
-    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
+    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.001, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
     private val triggerCommandsMap = mapOf(
@@ -53,6 +54,7 @@ class RobotContainer {
         highlowchooser.addOption("Score Floor", Constants.actionNames.floorDropoff)
         highlowchooser.addOption("Score Low Goal", Constants.actionNames.lowDropoff)
         highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
+        operatortab.add("Trigger Action", highlowchooser)
         configureBindings()
     }
 
@@ -75,8 +77,7 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLowI, 1.0)
-
+    val autonomousCommand: Command = PickupArmCommand(armSubsystem)
     /**
      * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
      * The throttle can be used to limit the speed of movement or rotation.

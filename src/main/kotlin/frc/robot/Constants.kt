@@ -87,6 +87,4 @@ class Constants {
     data class MovementTarget(val distanceM: Double, val yawD: Double)
 
     data class ArcadeDriveSpeeds(val fwd: Double, val rot: Double)
-
-    public val first_Arm: Arm = Arm(5, 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0)
 }
