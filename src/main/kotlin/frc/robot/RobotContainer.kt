@@ -51,6 +51,7 @@ class RobotContainer {
         highlowchooser.addOption("Score Floor", "floorgoalscore")
         highlowchooser.addOption("Score Low Goal", "lowgoalscore")
         highlowchooser.addOption("Score High Goal", "highgoalscore")
+        operatortab.add("Action Chooser", highlowchooser)
         configureBindings()
     }
 
