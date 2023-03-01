@@ -1,16 +1,16 @@
 package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.subsystems.GripperSubsystem
+import frc.robot.subsystems.ControlledArmSubsystem
+import edu.wpi.first.math.util.Units
+import frc.robot.Constants
 
-class OpenGripper(gripper: GripperSubsystem): CommandBase() {
-    val gripper: GripperSubsystem = gripper
-
-    /**
-     * Creates a new OpenGripper.
-     */
+class HighArmCommand (arm: ControlledArmSubsystem): CommandBase() {
+    val arm: ControlledArmSubsystem = arm
+    
     init {
         // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(arm)
     }
 
     // Called when the command is initially scheduled.
@@ -18,7 +18,7 @@ class OpenGripper(gripper: GripperSubsystem): CommandBase() {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        gripper.open()
+        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.higherD))
     }
 
     // Called once the command ends or is interrupted.

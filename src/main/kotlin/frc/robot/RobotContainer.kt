@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj2.command.Commands
 import frc.robot.subsystems.CameraSubsystem
 import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
+import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
+import frc.robot.commands.ExtendArmCommand
+import frc.robot.commands.LowerArmCommand
+import frc.robot.commands.RetractArmCommand
 import frc.robot.Constants
 
 /**
@@ -22,6 +26,7 @@ class RobotContainer {
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.3, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
+    private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -41,13 +46,7 @@ class RobotContainer {
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
         Trigger { io.firstButton.asBoolean }
-            .onTrue(Commands.run(
-                {
-                    // Probably a placeholder -- Weiju
-                    armSubsystem.rotateRadians(3.0)
-                },
-                armSubsystem
-            ))
+            //.onTrue(triggerCommand)
     }
 
     /**
@@ -62,7 +61,6 @@ class RobotContainer {
      * The throttle can be used to limit the speed of movement or rotation.
      * When the throttle is set to zero (fully down towards the minus sign printed on the joystick), all inputs to the joystick are zeroed and the robot will not move.
      * When the throttle is set to max (all the way up towards the plus sign printed on the joystick), no limits are placed on the magnitude of the input whatsoever.
-     * did i ask
      * @author Weiju Wang
      */
     val teleopCommand: Command =

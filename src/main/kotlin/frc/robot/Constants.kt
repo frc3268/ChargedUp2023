@@ -55,6 +55,8 @@ class Constants {
 
     object armPositions {
         const val retractedD: Double = 0.0
+        const val higherD: Double = 180.0
+        const val pickupD: Double = 225.0
         const val loweredD: Double = 270.0
         const val extendedD: Double = 315.0
     }

@@ -7,3 +7,9 @@ In our code, we're dealing with measures of various units, and we need to conver
 - D: Degrees
 - M: Meters
 - I: Inches
+
+Command groups (all begin retracted):
+- Pickup:             OpenGripperCommand, PickupArmCommand, CloseGripperCommand, RetractArmCommand
+- Dropoff @ Extended: ExtendArmCommand, OpenGripperCommand, RetractArmCommand
+- Dropoff @ Lower:    LowerArmCommand, OpenGripperCommand, RetractArmCommand
+- Dropoff @ Higher:   HigherArmCommand, OpenGripperCommand, RetractArmCommand
