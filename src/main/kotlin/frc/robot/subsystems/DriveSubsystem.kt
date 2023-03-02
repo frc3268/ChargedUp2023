@@ -109,7 +109,8 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun arcadeDrive(speeds: Constants.ArcadeDriveSpeeds) {
-        drive.arcadeDrive(speeds.fwd, speeds.rot)
+        //motors act weird when 
+        drive.arcadeDrive(speeds.fwd*0.999, speeds.rot*0.999)
     }
 
     public fun pidSpeedsCalculate(
@@ -129,7 +130,7 @@ class DriveSubsystem : SubsystemBase() {
     fun autoBalanceCommand(): Command =
         run {
             drive.arcadeDrive(-1 * Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))), 0.0)
-        }
+        }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 5.0})
 
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {
