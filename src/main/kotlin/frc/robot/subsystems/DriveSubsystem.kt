@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets
 import edu.wpi.first.math.util.Units
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
 
 class DriveSubsystem : SubsystemBase() {
     // Controllers
@@ -79,6 +82,9 @@ class DriveSubsystem : SubsystemBase() {
             // Apply the voltage constraint
             .addConstraint(voltageConstraint)
 
+    //gyro
+    val gyro:AHRS = AHRS(SPI.Port.kMXP)
+
     init {
         // Matthew says this is needed but doesn't know why. Do not remove -- Weiju
         driveLeft.setInverted(true)
@@ -91,9 +97,9 @@ class DriveSubsystem : SubsystemBase() {
      */
     fun getGyroAngle(axis: Constants.Axis): Double {
         when(axis){
-            Constants.Axis.PITCH -> return 0.0
-            Constants.Axis.ROLL -> return 0.0
-            Constants.Axis.YAW -> return 0.0
+            Constants.Axis.PITCH -> return gyro.getPitch().toDouble()
+            Constants.Axis.ROLL -> return gyro.getRoll().toDouble()
+            Constants.Axis.YAW -> return gyro.getYaw().toDouble()
             else -> return 0.0
         }
     }
@@ -103,7 +109,8 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun arcadeDrive(speeds: Constants.ArcadeDriveSpeeds) {
-        drive.arcadeDrive(speeds.fwd, speeds.rot)
+        //motors act weird when 
+        drive.arcadeDrive(speeds.fwd*0.999, speeds.rot*0.999)
     }
 
     public fun pidSpeedsCalculate(
@@ -123,7 +130,7 @@ class DriveSubsystem : SubsystemBase() {
     fun autoBalanceCommand(): Command =
         run {
             drive.arcadeDrive(-1 * Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))), 0.0)
-        }
+        }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 5.0})
 
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {

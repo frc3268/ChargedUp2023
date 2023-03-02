@@ -9,11 +9,16 @@ import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.Constants.Arm
 import frc.robot.Constants
 import edu.wpi.first.math.util.Units
+import edu.wpi.first.math.controller.ArmFeedforward
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
+    
+    val gravityFeedForward  = ArmConsts.kgrav
+
     val offsetR: Double = ArmConsts.armsStartRads
 
     init {
@@ -37,18 +42,21 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      * Rotates the motor by the given number of radians.
      */
     fun rotateRadians(radiansR: Double) {
-        pidcontroller.setReference(Units.radiansToDegrees(radiansR), CANSparkMax.ControlType.kPosition)
-    }
+        val cosinescalar = Math.cos(encoder.getPosition())
+        val feedforward = cosinescalar * gravityFeedForward
+        //147:1 as the gear ratio
+        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
 
     /**
      * Sets the motor to a given number of radians.
      */
     fun moveToGoal(targetPosR: Double) {
+        //will not move if you try totell it to tunr past 270 deg.
+        if (targetPosR > Units.degreesToRadians(270.0)){
+            return
+        }
         val currPosR: Double = Units.degreesToRadians(encoder.getPosition()) + offsetR
-        pidcontroller.setReference(
-            Units.radiansToDegrees(currPosR - targetPosR),
-            CANSparkMax.ControlType.kPosition
-        )
+        rotateRadians(currPosR-targetPosR)
     }
 
     fun resetPos() : Command {

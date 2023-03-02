@@ -15,6 +15,7 @@ import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
 import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
+import frc.robot.commands.RetractArmCommand
 import frc.robot.Constants
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -32,7 +33,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
-    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.001, 0.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0))
+    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.03, 0.0, 0.01, 0.0, 0.01, 1.0, -1.0, 1.0, 0.01))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
     private val triggerCommandsMap = mapOf(
@@ -50,11 +51,11 @@ class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
-        highlowchooser.setDefaultOption("Pick Up Cargo", Constants.actionNames.pickup)
-        highlowchooser.addOption("Score Floor", Constants.actionNames.floorDropoff)
-        highlowchooser.addOption("Score Low Goal", Constants.actionNames.lowDropoff)
-        highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
-        operatortab.add("Trigger Action", highlowchooser)
+        highlowchooser.setDefaultOption("Pick Up Cargo", "cargopick")
+        highlowchooser.addOption("Score Floor", "floorgoalscore")
+        highlowchooser.addOption("Score Low Goal", "lowgoalscore")
+        highlowchooser.addOption("Score High Goal", "highgoalscore")
+        operatortab.add("Action Chooser", highlowchooser)
         configureBindings()
     }
 
@@ -77,7 +78,8 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = PickupArmCommand(armSubsystem)
+    val autonomousCommand: Command = RetractArmCommand(armSubsystem)
+
     /**
      * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
      * The throttle can be used to limit the speed of movement or rotation.
