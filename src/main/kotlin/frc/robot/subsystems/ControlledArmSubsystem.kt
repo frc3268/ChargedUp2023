@@ -9,11 +9,17 @@ import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.Constants.Arm
 import frc.robot.Constants
 import edu.wpi.first.math.util.Units
+import edu.wpi.first.math.controller.ArmFeedforward
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
+    val feedforwardController : ArmFeedforward = ArmFeedforward(
+        ArmConsts.ks,
+        ArmConsts.kv,
+        ArmConsts.kg
+    )
     val offsetR: Double = ArmConsts.armsStartRads
 
     init {
@@ -37,7 +43,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      * Rotates the motor by the given number of radians.
      */
     fun rotateRadians(radiansR: Double) {
-        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition)
+        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforwardController.calculate(radiansR, 0.0))
     }
 
     /**
