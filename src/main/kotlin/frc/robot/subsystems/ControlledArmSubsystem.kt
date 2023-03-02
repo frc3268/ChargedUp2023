@@ -37,7 +37,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      * Rotates the motor by the given number of radians.
      */
     fun rotateRadians(radiansR: Double) {
-        pidcontroller.setReference(Units.radiansToDegrees(radiansR), CANSparkMax.ControlType.kPosition)
+        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition)
     }
 
     /**
@@ -45,10 +45,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      */
     fun moveToGoal(targetPosR: Double) {
         val currPosR: Double = Units.degreesToRadians(encoder.getPosition()) + offsetR
-        pidcontroller.setReference(
-            Units.radiansToDegrees(currPosR - targetPosR),
-            CANSparkMax.ControlType.kPosition
-        )
+        rotateRadians(currPosR-targetPosR)
     }
 
     fun resetPos() : Command {
