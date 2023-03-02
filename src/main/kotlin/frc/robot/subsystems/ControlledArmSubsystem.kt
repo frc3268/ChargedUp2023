@@ -10,16 +10,15 @@ import frc.robot.Constants.Arm
 import frc.robot.Constants
 import edu.wpi.first.math.util.Units
 import edu.wpi.first.math.controller.ArmFeedforward
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val motor: CANSparkMax = CANSparkMax(ArmConsts.motorPort, MotorType.kBrushless)
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
-    val feedforwardController : ArmFeedforward = ArmFeedforward(
-        ArmConsts.ks,
-        ArmConsts.kv,
-        ArmConsts.kg
-    )
+    
+    val gravityFeedForward  = ArmConsts.kgrav
+
     val offsetR: Double = ArmConsts.armsStartRads
 
     init {
@@ -43,8 +42,9 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      * Rotates the motor by the given number of radians.
      */
     fun rotateRadians(radiansR: Double) {
-        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforwardController.calculate(radiansR, 0.0))
-    }
+        val cosinescalar = Math.cos(encoder.getPosition())
+        val feedforward = cosinescalar * gravityFeedForward
+        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
 
     /**
      * Sets the motor to a given number of radians.

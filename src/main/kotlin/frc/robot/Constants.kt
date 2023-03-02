@@ -82,9 +82,7 @@ class Constants {
         val kmaxoutput: Double,
         val kminoutput: Double,
         val armsStartRads: Double,
-        val ks:Double,
-        val kg:Double,
-        val kv:Double
+        val kgrav:Double
     )
 
     data class MovementTarget(val distanceM: Double, val yawD: Double)
