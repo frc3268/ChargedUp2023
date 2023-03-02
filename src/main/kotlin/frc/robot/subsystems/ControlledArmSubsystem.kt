@@ -46,6 +46,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         val feedforward = cosinescalar * gravityFeedForward
         //147:1 as the gear ratio
         pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
+    }
 
     /**
      * Sets the motor to a given number of radians.
