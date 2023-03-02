@@ -44,6 +44,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     fun rotateRadians(radiansR: Double) {
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
+        //147:1 as the gear ratio
         pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
 
     /**
