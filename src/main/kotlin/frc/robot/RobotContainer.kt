@@ -69,7 +69,7 @@ class RobotContainer {
      */
     private fun configureBindings() {
         // Schedule ExampleCommand when exampleCondition changes to true
-        Trigger { io.firstButton.asBoolean }
+        Trigger { io.joystick.getRawButton(1) }
             .onTrue(triggerCommandsMap[highlowchooser.getSelected()])
     }
 

@@ -45,7 +45,9 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
         //147:1 as the gear ratio
-        pidcontroller.setReference((-radiansR * (2*Math.PI) / 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
+        //1 revolution is 2pi radians
+        //multiply by 147 to convert from motor revolutions to sprocket revolutions
+        pidcontroller.setReference((-(radiansR / (2*Math.PI)) * 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
     }
 
     /**
@@ -65,4 +67,4 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
             moveToGoal(offsetR)
         }
     }
-}}
+}

@@ -131,7 +131,10 @@ class DriveSubsystem : SubsystemBase() {
         run {
             drive.arcadeDrive(-1 * Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))), 0.0)
         }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 5.0})
-
+    fun driveBackUntilIncline() : Command = 
+        run{
+            drive.arcadeDrive(-.3, 0.0)
+        }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 5.0})
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {
             arcadeDrive(Constants.ArcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
