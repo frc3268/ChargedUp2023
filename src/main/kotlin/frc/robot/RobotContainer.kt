@@ -14,6 +14,7 @@ import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
 import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
+import frc.robot.commands.RetractArmCommand
 import frc.robot.Constants
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -76,7 +77,7 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = DriveToTargetCommand(cameraSubsystem, driveSubsystem, Constants.setHeights.poleTapeLowI, 1.0)
+    val autonomousCommand: Command = RetractArmCommand(armSubsystem)
 
     /**
      * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
