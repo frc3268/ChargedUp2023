@@ -39,7 +39,7 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
-    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.01, 0.05, 0.08, 0.0, 0.01, 1.0, -1.0, Units.degreesToRadians(45.0), 0.1))
+    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.0, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
     private val triggerCommandsMap = mapOf(
