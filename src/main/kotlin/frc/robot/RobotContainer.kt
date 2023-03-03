@@ -20,6 +20,7 @@ import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.RetractArmCommand
 import frc.robot.commands.OpenGripperCommand
 import frc.robot.commands.HighArmCommand
+import frc.robot.commands.FloorArmCommand
 import frc.robot.Constants
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -77,7 +78,7 @@ class RobotContainer {
             .onTrue(triggerCommandsMap[highlowchooser.getSelected()])
         
         //manual routines-no aim assist
-        //pick up cargo, extend arm, retract arm
+        //pick up cargo, extend arm(high and floor), retract arm
         Trigger{io.joystick.getRawButton(2)} . onTrue(
             PickUpCargoCommand(gripperSubsystem, armSubsystem)
         )
@@ -87,7 +88,13 @@ class RobotContainer {
                 HighArmCommand(armSubsystem)
             )
         )
-        Trigger{io.joystick.getRawButton(3)} . onTrue(
+        Trigger{io.joystick.getRawButton(4)} . onTrue(
+            Commands.sequence(
+                CloseGripperCommand(gripperSubsystem),
+                FloorArmCommand(armSubsystem)
+            )
+        )
+        Trigger{io.joystick.getRawButton(5)} . onTrue(
             Commands.sequence(
                 OpenGripperCommand(gripperSubsystem),
                 RetractArmCommand(armSubsystem)
