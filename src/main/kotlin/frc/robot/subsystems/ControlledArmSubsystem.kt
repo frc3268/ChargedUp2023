@@ -39,6 +39,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         pidcontroller.setI(ArmConsts.ki)
         pidcontroller.setD(ArmConsts.kd)
         pidcontroller.setOutputRange(ArmConsts.kminoutput, ArmConsts.kmaxoutput)
+        encoder.position = offsetR
     }
 
     override fun periodic() {
@@ -77,7 +78,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         if (targetPosR > Units.degreesToRadians(270.0)){
             return
         }
-        val currPosR: Double = Units.degreesToRadians(encoder.getPosition()) + offsetR
+        val currPosR: Double = Units.degreesToRadians(encoder.getPosition())
         rotateRadians(currPosR-targetPosR)
     }
 
