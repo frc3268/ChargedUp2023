@@ -48,7 +48,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         pidcontroller.setI(iwidget.getDouble(1.0))
         pidcontroller.setD(dwidget.getDouble(1.0))
         gravityFeedForward = ffwidget.getDouble(1.0)
-        encoderlabel.setDouble(encoder.position / (Math.PI * 2) * 147)
+        encoderlabel.setDouble(encoder.position / (Math.PI * 2) / 147)
         // This method will be called once per scheduler run
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
