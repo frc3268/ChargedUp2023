@@ -10,6 +10,9 @@ import frc.robot.Constants.Arm
 import frc.robot.Constants
 import edu.wpi.first.math.util.Units
 import edu.wpi.first.math.controller.ArmFeedforward
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
@@ -17,22 +20,31 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val encoder: RelativeEncoder = motor.getEncoder()
     val pidcontroller: SparkMaxPIDController = motor.getPIDController()
     
-    val gravityFeedForward  = ArmConsts.kgrav
+    var gravityFeedForward  = ArmConsts.kgrav
 
     val offsetR: Double = ArmConsts.armsStartRads
 
     var setpoint:Double = offsetR
 
+    val operatortab: ShuffleboardTab = Shuffleboard.getTab("PID Config")
+    val pwidget = operatortab.add("P Gain", ArmConsts.kp).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
+    val iwidget = operatortab.add("I Gain", ArmConsts.ki).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
+    val dwidget = operatortab.add("D Gain", ArmConsts.kd).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
+    val ffwidget = operatortab.add("FeedForward(gravity) Gain", ArmConsts.kgrav).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.5)).getEntry()
+
     init {
         pidcontroller.setP(ArmConsts.kp)
         pidcontroller.setI(ArmConsts.ki)
         pidcontroller.setD(ArmConsts.kd)
-        pidcontroller.setIZone(ArmConsts.kiz)
-        pidcontroller.setFF(ArmConsts.kff)
         pidcontroller.setOutputRange(ArmConsts.kminoutput, ArmConsts.kmaxoutput)
     }
 
     override fun periodic() {
+        //configure pid gains
+        pidcontroller.setP(pwidget.getDouble(1.0))
+        pidcontroller.setI(iwidget.getDouble(1.0))
+        pidcontroller.setD(dwidget.getDouble(1.0))
+        gravityFeedForward = ffwidget.getDouble(1.0)
         // This method will be called once per scheduler run
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
