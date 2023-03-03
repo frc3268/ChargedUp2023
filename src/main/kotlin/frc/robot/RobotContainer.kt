@@ -101,6 +101,11 @@ class RobotContainer {
                 RetractArmCommand(armSubsystem)
             )
         )
+
+
+        Trigger{io.joystick.getRawButton(6)} . onTrue(
+           driveSubsystem.autoBalanceCommand()
+        )
         
         
     }
