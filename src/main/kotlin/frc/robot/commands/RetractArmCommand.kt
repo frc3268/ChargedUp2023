@@ -17,7 +17,7 @@ class RetractArmCommand (arm: ControlledArmSubsystem): CommandBase() {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.retractedD))
+        arm.resetPos()
     }
 
     // Called once the command ends or is interrupted.

@@ -59,10 +59,10 @@ class Constants {
 
     object armPositions {
         const val retractedD: Double = 0.0
-        const val higherD: Double = 180.0+45.0
-        const val pickupD: Double = 225.0+45.0
-        const val loweredD: Double = 225.0+45.0
-        const val floorD: Double = 250.0+45.0
+        const val higherD: Double = 180.0
+        const val pickupD: Double = 225.0
+        const val loweredD: Double = 225.0
+        const val floorD: Double = 250.0
     }
 
     object actionNames {
@@ -81,7 +81,6 @@ class Constants {
         val kff: Double,
         val kmaxoutput: Double,
         val kminoutput: Double,
-        val armsStartRads: Double,
         val kgrav:Double
     )
 

@@ -22,9 +22,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     
     var gravityFeedForward  = ArmConsts.kgrav
 
-    val offsetR: Double = ArmConsts.armsStartRads
-
-    var setpoint:Double = offsetR
+    var setpoint:Double = 0.0
 
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("PID Config")
     val pwidget = operatortab.add("P Gain", ArmConsts.kp).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
@@ -39,7 +37,6 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         pidcontroller.setI(ArmConsts.ki)
         pidcontroller.setD(ArmConsts.kd)
         pidcontroller.setOutputRange(ArmConsts.kminoutput, ArmConsts.kmaxoutput)
-        encoder.position = offsetR
     }
 
     override fun periodic() {
@@ -48,11 +45,11 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         pidcontroller.setI(iwidget.getDouble(1.0))
         pidcontroller.setD(dwidget.getDouble(1.0))
         gravityFeedForward = ffwidget.getDouble(1.0)
-        encoderlabel.setDouble(encoder.position / (Math.PI * 2) * 147)
+        encoderlabel.setDouble(encoder.position / (Math.PI * 2) * 54)
         // This method will be called once per scheduler run
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
-        pidcontroller.setReference((-(setpoint / (2*Math.PI)) * 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
+        pidcontroller.setReference((-(setpoint / (2*Math.PI)) * 54), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
 
     }
 
@@ -73,18 +70,18 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     /**
      * Sets the motor to a given number of radians.
      */
-    fun moveToGoal(targetPosR: Double) {
+    fun moveToGoal(targetPosD: Double) {
         //will not move if you try totell it to tunr past 270 deg.
-        if (targetPosR > Units.degreesToRadians(270.0)){
+        if (targetPosD > Units.degreesToRadians(270.0)){
             return
         }
         val currPosR: Double = Units.degreesToRadians(encoder.getPosition())
-        rotateRadians(currPosR-targetPosR)
+        rotateRadians(currPosR-Units.degreesToRadians(targetPosD))
     }
 
     fun resetPos() : Command {
         return runOnce {
-            moveToGoal(offsetR)
+            moveToGoal(Constants.armPositions.retractedD)
         }
     }
 }
