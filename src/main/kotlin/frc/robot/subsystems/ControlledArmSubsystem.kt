@@ -32,6 +32,8 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val dwidget = operatortab.add("D Gain", ArmConsts.kd).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
     val ffwidget = operatortab.add("FeedForward(gravity) Gain", ArmConsts.kgrav).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.5)).getEntry()
 
+    val encoderlabel = operatortab.add("encoder dist", 0.0).getEntry()
+    
     init {
         pidcontroller.setP(ArmConsts.kp)
         pidcontroller.setI(ArmConsts.ki)
@@ -45,6 +47,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         pidcontroller.setI(iwidget.getDouble(1.0))
         pidcontroller.setD(dwidget.getDouble(1.0))
         gravityFeedForward = ffwidget.getDouble(1.0)
+        encoderlabel.setDouble(encoder.position / (Math.PI * 2) * 147)
         // This method will be called once per scheduler run
         val cosinescalar = Math.cos(encoder.getPosition())
         val feedforward = cosinescalar * gravityFeedForward
