@@ -21,6 +21,8 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
 
     val offsetR: Double = ArmConsts.armsStartRads
 
+    var setpoint:Double = offsetR
+
     init {
         pidcontroller.setP(ArmConsts.kp)
         pidcontroller.setI(ArmConsts.ki)
@@ -32,6 +34,10 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
 
     override fun periodic() {
         // This method will be called once per scheduler run
+        val cosinescalar = Math.cos(encoder.getPosition())
+        val feedforward = cosinescalar * gravityFeedForward
+        pidcontroller.setReference((-(setpoint / (2*Math.PI)) * 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
+
     }
 
     override fun simulationPeriodic() {
@@ -42,12 +48,10 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
      * Rotates the motor by the given number of radians.
      */
     fun rotateRadians(radiansR: Double) {
-        val cosinescalar = Math.cos(encoder.getPosition())
-        val feedforward = cosinescalar * gravityFeedForward
         //147:1 as the gear ratio
         //1 revolution is 2pi radians
         //multiply by 147 to convert from motor revolutions to sprocket revolutions
-        pidcontroller.setReference((-(radiansR / (2*Math.PI)) * 147), CANSparkMax.ControlType.kPosition, 0, feedforward, ArbFFUnits.kPercentOut)
+        setpoint = radiansR
     }
 
     /**
