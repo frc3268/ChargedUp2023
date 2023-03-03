@@ -10,6 +10,8 @@ class GripperSubsystem : SubsystemBase() {
     public val motor: Talon = Talon(motorPort)
     public var closed: Boolean = true
 
+    //this may need to be changed to a setpoint system like the arm in order to keep the 
+
     fun open(): Command {
         closed = false
         return runOnce {
