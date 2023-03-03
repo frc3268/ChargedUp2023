@@ -70,13 +70,13 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     /**
      * Sets the motor to a given number of radians.
      */
-    fun moveToGoal(targetPosD: Double) {
+    fun moveToGoal(targetPosR: Double) {
         //will not move if you try totell it to tunr past 270 deg.
-        if (targetPosD > Units.degreesToRadians(270.0)){
+        if (targetPosR > Units.degreesToRadians(270.0)){
             return
         }
         val currPosR: Double = Units.degreesToRadians(encoder.getPosition())
-        rotateRadians(currPosR-Units.degreesToRadians(targetPosD))
+        rotateRadians(currPosR-targetPosR)
     }
 
     fun resetPos() : Command {
