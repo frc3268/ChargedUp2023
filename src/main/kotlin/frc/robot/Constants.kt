@@ -62,7 +62,7 @@ class Constants {
         const val higherD: Double = 180.0
         const val pickupD: Double = 225.0
         const val loweredD: Double = 225.0
-        const val floorD: Double = 180.0
+        const val floorD: Double = 250.0
     }
 
     object actionNames {
