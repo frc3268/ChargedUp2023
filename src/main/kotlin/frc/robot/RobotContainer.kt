@@ -16,6 +16,10 @@ import frc.robot.commands.commandgroups.DropCargoFloorCommand
 import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
 import frc.robot.commands.LowerArmCommand
+import frc.robot.commands.CloseGripperCommand
+import frc.robot.commands.RetractArmCommand
+import frc.robot.commands.OpenGripperCommand
+import frc.robot.commands.HighArmCommand
 import frc.robot.Constants
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -51,10 +55,10 @@ class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
-        highlowchooser.setDefaultOption("Pick Up Cargo", "cargopick")
-        highlowchooser.addOption("Score Floor", "floorgoalscore")
-        highlowchooser.addOption("Score Low Goal", "lowgoalscore")
-        highlowchooser.addOption("Score High Goal", "highgoalscore")
+        highlowchooser.setDefaultOption("Pick Up Cargo", Constants.actionNames.pickup)
+        highlowchooser.addOption("Score Floor", Constants.actionNames.floorDropoff)
+        highlowchooser.addOption("Score Low Goal", Constants.actionNames.lowDropoff)
+        highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
         operatortab.add("Action Chooser", highlowchooser)
         configureBindings()
     }
@@ -68,9 +72,29 @@ class RobotContainer {
      * controllers or [edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        // Schedule ExampleCommand when exampleCondition changes to true
+        //aim assist routines
         Trigger { io.joystick.getRawButton(1) }
             .onTrue(triggerCommandsMap[highlowchooser.getSelected()])
+        
+        //manual routines-no aim assist
+        //pick up cargo, extend arm, retract arm
+        Trigger{io.joystick.getRawButton(2)} . onTrue(
+            PickUpCargoCommand(gripperSubsystem, armSubsystem)
+        )
+        Trigger{io.joystick.getRawButton(3)} . onTrue(
+            Commands.sequence(
+                CloseGripperCommand(gripperSubsystem),
+                HighArmCommand(armSubsystem)
+            )
+        )
+        Trigger{io.joystick.getRawButton(3)} . onTrue(
+            Commands.sequence(
+                OpenGripperCommand(gripperSubsystem),
+                RetractArmCommand(armSubsystem)
+            )
+        )
+        
+        
     }
 
     /**

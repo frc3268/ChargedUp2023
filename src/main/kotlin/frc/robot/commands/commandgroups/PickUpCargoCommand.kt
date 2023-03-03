@@ -20,7 +20,7 @@ class PickUpCargoCommand(gripper: GripperSubsystem, arm: ControlledArmSubsystem)
     init {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(FooCommand(), BarCommand())
-        addCommands(
+        addCommands(       
             OpenGripperCommand(gripper),
             PickupArmCommand(arm),
             CloseGripperCommand(gripper),
