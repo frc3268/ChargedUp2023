@@ -29,6 +29,7 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     val iwidget = operatortab.add("I Gain", ArmConsts.ki).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
     val dwidget = operatortab.add("D Gain", ArmConsts.kd).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.1)).getEntry()
     val ffwidget = operatortab.add("FeedForward(gravity) Gain", ArmConsts.kgrav).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 0.5)).getEntry()
+    val setwidget = operatortab.add("setpoint", setpoint).withWidget(BuiltInWidgets.kNumberSlider).withProperties(mapOf("min" to 0, "max" to 360)).getEntry()
 
     val encoderlabel = operatortab.add("encoder dist", 0.0).getEntry()
     
@@ -41,6 +42,8 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     }
 
     override fun periodic() {
+        //configure setpoint
+        setpoint = setwidget.getDouble(1.0)
         //configure pid gains
         pidcontroller.setP(pwidget.getDouble(1.0))
         pidcontroller.setI(iwidget.getDouble(1.0))

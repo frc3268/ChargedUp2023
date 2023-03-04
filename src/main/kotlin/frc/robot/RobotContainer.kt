@@ -39,6 +39,9 @@ class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
+    //Increase kP until the mechanism responds to a sudden change in setpoint by moving sharply to the new position. If the controller oscillates too much around the setpoint, reduce K_p until it stops.
+    //Increase kI when the output gets “stuck” before converging to the setpoint.
+    //Increase kDto help the system track smoothly-moving setpoints and further reduce oscillation.
     private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.0, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
