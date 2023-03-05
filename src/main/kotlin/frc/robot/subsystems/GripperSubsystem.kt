@@ -12,22 +12,18 @@ class GripperSubsystem : SubsystemBase() {
 
     //this may need to be changed to a setpoint system like the arm in order to keep the 
 
-    fun open(): Command {
+    fun open(){
         closed = false
-        return runOnce {
             motor.set(-1.0)
-        }.withTimeout(2.0)
     }
 
-    fun close(): Command {
+    fun close(){
         closed = true
-        return runOnce {
             motor.set(1.0)
-        }.withTimeout(2.0)
     }
 
-    fun toggle(): Command {
-        return if(closed) open() else close()
+    fun toggle() {
+        if(closed) open() else close()
     }
 
     override fun periodic() {
