@@ -13,11 +13,11 @@ class LowerArmCommand (arm: ControlledArmSubsystem): CommandBase() {
     }
 
     // Called when the command is initially scheduled.
-    override fun initialize() { }
+    override fun initialize() {
+        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.loweredD)) }
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.loweredD))
     }
 
     // Called once the command ends or is interrupted.
@@ -25,6 +25,6 @@ class LowerArmCommand (arm: ControlledArmSubsystem): CommandBase() {
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        return false
+        return true
     }
 }

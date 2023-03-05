@@ -16,18 +16,18 @@ class FloorArmCommand (arm: ControlledArmSubsystem): CommandBase() {
     }
 
     // Called when the command is initially scheduled.
-    override fun initialize() { }
+    override fun initialize() { arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.floorD))
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        arm.moveToGoal(Units.degreesToRadians(Constants.armPositions.higherD))
-    }
+       }
 
     // Called once the command ends or is interrupted.
     override fun end(interrupted: Boolean) { }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        return false
+        return true
     }
 }

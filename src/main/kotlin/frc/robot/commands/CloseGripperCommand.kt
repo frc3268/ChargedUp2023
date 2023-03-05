@@ -18,7 +18,6 @@ class CloseGripperCommand(gripper: GripperSubsystem): CommandBase() {
     override fun execute() {
         if(!gripper.closed){
             gripper.close()
-            end(false)
         }
     }
 

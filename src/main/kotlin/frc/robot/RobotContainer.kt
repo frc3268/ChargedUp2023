@@ -15,6 +15,7 @@ import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
 import frc.robot.commands.commandgroups.DropCargoLowCommand
 import frc.robot.commands.commandgroups.DropCargoHighCommand
+import frc.robot.commands.commandgroups.AutoRoutine
 import frc.robot.commands.LowerArmCommand
 import frc.robot.commands.CloseGripperCommand
 import frc.robot.commands.RetractArmCommand
@@ -37,12 +38,12 @@ import edu.wpi.first.math.util.Units
  */
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private val driveSubsystem = DriveSubsystem()
+    public val driveSubsystem = DriveSubsystem()
     public val cameraSubsystem = CameraSubsystem()
     //Increase kP until the mechanism responds to a sudden change in setpoint by moving sharply to the new position. If the controller oscillates too much around the setpoint, reduce K_p until it stops.
     //Increase kI when the output gets “stuck” before converging to the setpoint.
     //Increase kDto help the system track smoothly-moving setpoints and further reduce oscillation.
-    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.0, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
+    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.01, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
     private val gripperSubsystem = GripperSubsystem()
     private val io = IO()
     private val triggerCommandsMap = mapOf(
@@ -55,7 +56,18 @@ class RobotContainer {
     //smart dashboard
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
     var highlowchooser = SendableChooser<String>()
-
+    /**
+     * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
+     * The throttle can be used to limit the speed of movement or rotation.
+     * When the throttle is set to zero (fully down towards the minus sign printed on the joystick), all inputs to the joystick are zeroed and the robot will not move.
+     * When the throttle is set to max (all the way up towards the plus sign printed on the joystick), no limits are placed on the magnitude of the input whatsoever.
+     * @author Weiju Wang
+     */
+    val teleopCommand: Command =
+        driveSubsystem.arcadeDriveCommand(
+            { io.joystick.getY() * (-1 * io.joystick.getThrottle() + 1) / 2 },
+            { io.joystick.getX() * (-1 * io.joystick.getThrottle() + 1) / 2 }
+        )
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
@@ -66,6 +78,7 @@ class RobotContainer {
         highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
         operatortab.add("Action Chooser", highlowchooser)
         configureBindings()
+        driveSubsystem.setDefaultCommand(teleopCommand)
     }
 
     /**
@@ -84,24 +97,30 @@ class RobotContainer {
         //manual routines-no aim assist
         //pick up cargo, extend arm(high and floor), retract arm
         Trigger{io.joystick.getRawButton(2)} . onTrue(
-            PickUpCargoCommand(gripperSubsystem, armSubsystem)
+            Commands.sequence(
+            OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
+            PickUpCargoCommand(gripperSubsystem, armSubsystem).withTimeout(0.1),
+            CloseGripperCommand(gripperSubsystem).withTimeout(1.0)
+            )
+
         )
         Trigger{io.joystick.getRawButton(3)} . onTrue(
             Commands.sequence(
-                CloseGripperCommand(gripperSubsystem),
-                HighArmCommand(armSubsystem)
+                
+            CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
+                HighArmCommand(armSubsystem).withTimeout(0.1)
             )
         )
         Trigger{io.joystick.getRawButton(4)} . onTrue(
             Commands.sequence(
-                CloseGripperCommand(gripperSubsystem),
-                FloorArmCommand(armSubsystem)
+                CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
+                FloorArmCommand(armSubsystem).withTimeout(0.1)
             )
         )
         Trigger{io.joystick.getRawButton(5)} . onTrue(
             Commands.sequence(
-                OpenGripperCommand(gripperSubsystem),
-                RetractArmCommand(armSubsystem)
+                OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
+                RetractArmCommand(armSubsystem).withTimeout(0.1)
             )
         )
 
@@ -111,6 +130,7 @@ class RobotContainer {
         )
         
         
+        
     }
 
     /**
@@ -118,18 +138,9 @@ class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    val autonomousCommand: Command = LowerArmCommand(armSubsystem)
+    val autonomousCommand: Command = AutoRoutine(driveSubsystem, armSubsystem, gripperSubsystem
+    )
 
-    /**
-     * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
-     * The throttle can be used to limit the speed of movement or rotation.
-     * When the throttle is set to zero (fully down towards the minus sign printed on the joystick), all inputs to the joystick are zeroed and the robot will not move.
-     * When the throttle is set to max (all the way up towards the plus sign printed on the joystick), no limits are placed on the magnitude of the input whatsoever.
-     * @author Weiju Wang
-     */
-    val teleopCommand: Command =
-        driveSubsystem.arcadeDriveCommand(
-            { io.joystick.getY() * (-1 * io.joystick.getThrottle() + 1) / 2 },
-            { io.joystick.getX() * (-1 * io.joystick.getThrottle() + 1) / 2 }
-        )
+    
+
 }

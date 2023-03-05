@@ -13,18 +13,19 @@ class RetractArmCommand (arm: ControlledArmSubsystem): CommandBase() {
     }
 
     // Called when the command is initially scheduled.
-    override fun initialize() { }
+    override fun initialize() {
+        arm.resetPos() }
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        arm.resetPos()
     }
 
     // Called once the command ends or is interrupted.
-    override fun end(interrupted: Boolean) { }
+    override fun end(interrupted: Boolean) { 
+    }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        return false
+        return true
     }
 }

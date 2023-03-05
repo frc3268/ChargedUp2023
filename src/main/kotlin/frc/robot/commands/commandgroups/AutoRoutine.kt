@@ -13,7 +13,7 @@ import frc.robot.commands.RetractArmCommand
 class AutoRoutine(drive:DriveSubsystem, arm:ControlledArmSubsystem, gripper:GripperSubsystem) : SequentialCommandGroup() {
     val drive:DriveSubsystem = drive
     val arm:ControlledArmSubsystem = arm
-    val girpper:GripperSubsystem = gripper
+    val gripper:GripperSubsystem = gripper
     /**
      * Creates a new AutoRoutine.
      */
@@ -21,10 +21,8 @@ class AutoRoutine(drive:DriveSubsystem, arm:ControlledArmSubsystem, gripper:Grip
         // Add your commands in the addCommands() call, e.g.
         // addCommands(FooCommand(), BarCommand())
         addCommands(
-            CloseGripperCommand(gripper),
-            HighArmCommand(arm),
-            RetractArmCommand(arm),
-            drive.driveBackUntilIncline(),
+            drive.arcadeDriveCommand({0.2}, {0.0}).withTimeout(2.0),
+            drive.driveBackUntilIncline().withTimeout(5.0),
             drive.autoBalanceCommand()
         )
     }

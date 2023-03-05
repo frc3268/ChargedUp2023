@@ -42,9 +42,8 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     }
 
     override fun periodic() {
-        //configure setpoint
-        setpoint = setwidget.getDouble(1.0)
         //configure pid gains
+        setwidget.setDouble(setpoint)
         pidcontroller.setP(pwidget.getDouble(1.0))
         pidcontroller.setI(iwidget.getDouble(1.0))
         pidcontroller.setD(dwidget.getDouble(1.0))
@@ -80,12 +79,11 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
             return
         }
         val currPosR: Double = Units.degreesToRadians(encoder.getPosition())
-        rotateRadians(currPosR-targetPosR)
+        rotateRadians(targetPosR - currPosR)
     }
 
-    fun resetPos() : Command {
-        return runOnce {
+    fun resetPos() {    
             moveToGoal(Constants.armPositions.retractedD)
-        }
+        
     }
 }
