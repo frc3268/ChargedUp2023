@@ -3,6 +3,7 @@ package frc.robot
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import frc.robot.commands.commandgroups.AutoRoutine
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -51,7 +52,8 @@ class Robot : TimedRobot() {
 
     /** This autonomous runs the autonomous command selected by your [RobotContainer] class.  */
     override fun autonomousInit() {
-        autonomousCommand = robotContainer?.autonomousCommand
+        //oh boy-cant wait for this to go wrong
+        autonomousCommand = AutoRoutine(robotContainer!!.driveSubsystem, robotContainer!!.armSubsystem, robotContainer!!.gripperSubsystem, robotContainer!!.autoselector.getSelected())
 
         // Schedule the autonomous command (example)
         // Note the Kotlin safe-call(?.), this ensures autonomousCommand is not null before scheduling it

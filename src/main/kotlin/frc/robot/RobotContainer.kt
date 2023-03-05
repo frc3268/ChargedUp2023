@@ -43,9 +43,9 @@ class RobotContainer {
     //Increase kP until the mechanism responds to a sudden change in setpoint by moving sharply to the new position. If the controller oscillates too much around the setpoint, reduce K_p until it stops.
     //Increase kI when the output gets “stuck” before converging to the setpoint.
     //Increase kDto help the system track smoothly-moving setpoints and further reduce oscillation.
-    private val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.01, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
-    private val gripperSubsystem = GripperSubsystem()
-    private val io = IO()
+    public val armSubsystem = ControlledArmSubsystem(Constants.Arm(5, 0.08, 0.01, 0.0, 0.0, 0.01, 1.0, -1.0, 0.1))
+    public val gripperSubsystem = GripperSubsystem()
+    public val io = IO()
     private val triggerCommandsMap = mapOf(
         Constants.actionNames.pickup to PickUpCargoCommand(gripperSubsystem, armSubsystem),
         Constants.actionNames.floorDropoff to DropCargoFloorCommand(gripperSubsystem, armSubsystem, cameraSubsystem, driveSubsystem),
@@ -55,7 +55,7 @@ class RobotContainer {
 
     //smart dashboard
     val operatortab: ShuffleboardTab = Shuffleboard.getTab("Operator")
-    var highlowchooser = SendableChooser<String>()
+    public var autoselector = SendableChooser<Int>()
     /**
      * The pitch axis moves the robot forward and backward; the roll axis turns it left and right.
      * The throttle can be used to limit the speed of movement or rotation.
@@ -72,11 +72,10 @@ class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
-        highlowchooser.setDefaultOption("Pick Up Cargo", Constants.actionNames.pickup)
-        highlowchooser.addOption("Score Floor", Constants.actionNames.floorDropoff)
-        highlowchooser.addOption("Score Low Goal", Constants.actionNames.lowDropoff)
-        highlowchooser.addOption("Score High Goal", Constants.actionNames.highDropoff)
-        operatortab.add("Action Chooser", highlowchooser)
+        autoselector.setDefaultOption("Basic Auto", 1)
+        autoselector.addOption("Balance Auto", 2)
+        autoselector.addOption("Scoring Auto", 3)
+        operatortab.add("Auto Chooser", autoselector)
         configureBindings()
         driveSubsystem.setDefaultCommand(teleopCommand)
     }
@@ -90,11 +89,6 @@ class RobotContainer {
      * controllers or [edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        //aim assist routines
-        Trigger { io.joystick.getRawButton(1) }
-            .onTrue(triggerCommandsMap[highlowchooser.getSelected()])
-        
-        //manual routines-no aim assist
         //pick up cargo, extend arm(high and floor), retract arm
         Trigger{io.joystick.getRawButton(2)} . onTrue(
             Commands.sequence(
@@ -132,14 +126,6 @@ class RobotContainer {
         
         
     }
-
-    /**
-     * Use this to pass the autonomous command to the main [Robot] class.
-     *
-     * @return the command to run in autonomous
-     */
-    val autonomousCommand: Command = AutoRoutine(driveSubsystem, armSubsystem, gripperSubsystem
-    )
 
     
 

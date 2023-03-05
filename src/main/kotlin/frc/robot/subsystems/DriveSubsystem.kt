@@ -133,13 +133,12 @@ class DriveSubsystem : SubsystemBase() {
         }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) < 5.0})
     fun driveBackUntilIncline() : Command = 
         run{
-            drive.arcadeDrive(-.3, 0.0)
+            drive.arcadeDrive(-0.5, 0.0)
         }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 5.0})
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {
             arcadeDrive(Constants.ArcadeDriveSpeeds(fwd.getAsDouble(), rot.getAsDouble()))
         }
-            .finallyDo { stopMotor() }
 
     /** This method will be called once per scheduler run */
     override fun periodic() {
