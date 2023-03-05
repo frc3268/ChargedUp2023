@@ -65,8 +65,9 @@ class RobotContainer {
      */
     val teleopCommand: Command =
         driveSubsystem.arcadeDriveCommand(
-            { io.joystick.getY() * (-1 * io.joystick.getThrottle() + 1) / 2 },
-            { io.joystick.getX() * (-1 * io.joystick.getThrottle() + 1) / 2 }
+            //!work
+            { (io.joystick.getY() * (-1 * io.joystick.getThrottle() + 1) / 2 ) * 0.99},
+            { (io.joystick.getX() * (-1 * io.joystick.getThrottle() + 1) / 2) * 0.99}
         )
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */

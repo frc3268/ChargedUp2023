@@ -109,8 +109,7 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     public fun arcadeDrive(speeds: Constants.ArcadeDriveSpeeds) {
-        //motors act weird when 
-        drive.arcadeDrive(speeds.fwd*0.9, speeds.rot*0.9)
+        drive.arcadeDrive(speeds.fwd, speeds.rot)
     }
 
     public fun pidSpeedsCalculate(
