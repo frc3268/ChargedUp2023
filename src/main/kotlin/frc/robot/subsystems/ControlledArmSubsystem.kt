@@ -67,8 +67,8 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
         //147:1 as the gear ratio
         //1 revolution is 2pi radians
         //multiply by 147 to convert from motor revolutions to sprocket revolutions
-        //!TENTATIVE!
-        setpoint = 2*radiansR
+        
+        setpoint = radiansR
     }
 
     /**
@@ -84,7 +84,6 @@ class ControlledArmSubsystem(ArmConsts: Arm) : SubsystemBase() {
     }
 
     fun resetPos() {    
-            moveToGoal(Constants.armPositions.retractedD)
-        
+        moveToGoal(Constants.armPositions.retractedD)
     }
 }

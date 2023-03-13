@@ -125,14 +125,15 @@ class DriveSubsystem : SubsystemBase() {
         drive.tankDrive(left, right)
     }
 
+
     // balance by setting speed proportional to angle.
     fun autoBalanceCommand(): Command =
         run {
-            drive.arcadeDrive(-1 * Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH))), 0.0)
+            drive.arcadeDrive(Math.sin(Units.degreesToRadians(getGyroAngle(Constants.Axis.PITCH)) * 1.5), 0.0)
         }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) < 5.0})
-    fun driveBackUntilIncline() : Command = 
+    fun driveBackUntilIncline(): Command = 
         run{
-            drive.arcadeDrive(-0.5, 0.0)
+            drive.arcadeDrive(0.5, 0.0)
         }.until({Math.abs(getGyroAngle(Constants.Axis.PITCH)) > 10.0})
     fun arcadeDriveCommand(fwd: DoubleSupplier, rot: DoubleSupplier): Command =
         run {

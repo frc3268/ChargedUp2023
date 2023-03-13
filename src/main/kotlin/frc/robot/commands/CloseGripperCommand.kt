@@ -22,7 +22,9 @@ class CloseGripperCommand(gripper: GripperSubsystem): CommandBase() {
     }
 
     // Called once the command ends or is interrupted.
-    override fun end(interrupted: Boolean) { }
+    override fun end(interrupted: Boolean) {
+        gripper.stop()
+     }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {

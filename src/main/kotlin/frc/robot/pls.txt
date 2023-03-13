@@ -1,0 +1,27 @@
+Trigger{io.joystick.getRawButton(2)} . onTrue(
+            Commands.sequence(
+            OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
+            PickUpCargoCommand(gripperSubsystem, armSubsystem).withTimeout(0.1),
+            CloseGripperCommand(gripperSubsystem).withTimeout(1.0)
+            )
+
+        )
+        Trigger{io.joystick.getRawButton(3)} . onTrue(
+            Commands.sequence(
+                
+            CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
+                HighArmCommand(armSubsystem).withTimeout(0.1)
+            )
+        )
+        Trigger{io.joystick.getRawButton(4)} . onTrue(
+            Commands.sequence(
+                CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
+                FloorArmCommand(armSubsystem).withTimeout(0.1)
+            )
+        )
+        Trigger{io.joystick.getRawButton(5)} . onTrue(
+            Commands.sequence(
+                OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
+                RetractArmCommand(armSubsystem).withTimeout(0.1)
+            )
+        )

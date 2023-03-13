@@ -21,7 +21,8 @@ class FloorArmCommand (arm: ControlledArmSubsystem): CommandBase() {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-       }
+    
+    }
 
     // Called once the command ends or is interrupted.
     override fun end(interrupted: Boolean) { }

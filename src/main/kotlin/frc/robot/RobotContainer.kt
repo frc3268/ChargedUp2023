@@ -10,6 +10,7 @@ import frc.robot.subsystems.DriveSubsystem
 import frc.robot.subsystems.ControlledArmSubsystem
 import frc.robot.subsystems.GripperSubsystem
 import frc.robot.commands.DriveToTargetCommand
+import frc.robot.commands.DriveTillCollideCommand
 import frc.robot.commands.PickupArmCommand
 import frc.robot.commands.commandgroups.PickUpCargoCommand
 import frc.robot.commands.commandgroups.DropCargoFloorCommand
@@ -73,8 +74,8 @@ class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     init {
         // Configure the trigger bindings
-        autoselector.setDefaultOption("Basic Auto", 1)
-        autoselector.addOption("Balance Auto", 2)
+        autoselector.setDefaultOption("Basic Auto", 2)
+        autoselector.addOption("Balance Auto", 1)
         autoselector.addOption("Scoring Auto", 3)
         operatortab.add("Auto Chooser", autoselector)
         configureBindings()
@@ -90,44 +91,37 @@ class RobotContainer {
      * controllers or [edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        //pick up cargo, extend arm(high and floor), retract arm
-        Trigger{io.joystick.getRawButton(2)} . onTrue(
-            Commands.sequence(
-            OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
-            PickUpCargoCommand(gripperSubsystem, armSubsystem).withTimeout(0.1),
-            CloseGripperCommand(gripperSubsystem).withTimeout(1.0)
-            )
+        /* Pick up cargo, extend arm (high and floor), retract arm */
 
-        )
-        Trigger{io.joystick.getRawButton(3)} . onTrue(
+        Trigger{io.joystick.getRawButton(1)}.onTrue(
             Commands.sequence(
-                
-            CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
-                HighArmCommand(armSubsystem).withTimeout(0.1)
+                driveSubsystem.driveBackUntilIncline(),
+                driveSubsystem.autoBalanceCommand()
             )
         )
-        Trigger{io.joystick.getRawButton(4)} . onTrue(
-            Commands.sequence(
-                CloseGripperCommand(gripperSubsystem).withTimeout(1.0),
-                FloorArmCommand(armSubsystem).withTimeout(0.1)
+        Trigger{io.joystick.getRawButton(2)}.onTrue(
+            Commands.sequence(    
+                driveSubsystem.driveBackUntilIncline(),
+                driveSubsystem.autoBalanceCommand()
             )
         )
-        Trigger{io.joystick.getRawButton(5)} . onTrue(
-            Commands.sequence(
-                OpenGripperCommand(gripperSubsystem).withTimeout(1.0),
-                RetractArmCommand(armSubsystem).withTimeout(0.1)
-            )
+        Trigger{io.joystick.getRawButton(3)}.onTrue(
+            OpenGripperCommand(gripperSubsystem)
+                .withTimeout(0.5)
         )
-
-
-        Trigger{io.joystick.getRawButton(6)} . onTrue(
-           driveSubsystem.autoBalanceCommand()
+        Trigger{io.joystick.getRawButton(4)}.onTrue(
+            CloseGripperCommand(gripperSubsystem)
+                .withTimeout(0.5)
         )
         
+        Trigger{io.joystick.getRawButton(5)}.onTrue(   
+            HighArmCommand(armSubsystem)
+                .withTimeout(0.1)     
+        )
         
-        
+        Trigger{io.joystick.getRawButton(6)}.onTrue(
+            RetractArmCommand(armSubsystem)
+                .withTimeout(0.1)
+        )
     }
-
-    
-
 }

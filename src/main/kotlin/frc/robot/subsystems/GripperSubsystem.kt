@@ -14,16 +14,20 @@ class GripperSubsystem : SubsystemBase() {
 
     fun open(){
         closed = false
-            motor.set(-1.0)
+            motor.set(-0.2)
     }
 
     fun close(){
         closed = true
-            motor.set(1.0)
+            motor.set(0.2)
     }
 
     fun toggle() {
         if(closed) open() else close()
+    }
+
+    public fun stop(){
+        motor.stopMotor()
     }
 
     override fun periodic() {
